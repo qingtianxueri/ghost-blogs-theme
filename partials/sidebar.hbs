@@ -1,0 +1,20 @@
+{{!-- Sidebar right --}}
+<div id="sidebar" class="col s12 sidebar u-h-b-lg">
+
+	{{!-- 5 articles featured in page (home - author - tag) --}}
+	{{#is "home"}}
+		{{#get "posts" filter="featured:true" limit="5" as |featured|}}
+			{{> "widget-entry-sidebar" widgetTitle="Featured Posts" widgetPosts=featured}}
+		{{/get}}
+	{{/is}}
+
+	{{!-- 5 articles recents in page (post) --}}
+	{{#is "post, tag, author, paged"}}
+		{{#get "posts" limit="5" as |recents|}}
+			{{> "widget-entry-sidebar" widgetTitle="Latest" widgetPosts=recents}}
+		{{/get}}
+	{{/is}}
+
+	{{!-- Add your content here --}}
+
+</div>

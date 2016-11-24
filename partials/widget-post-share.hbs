@@ -1,0 +1,17 @@
+{{!-- Post Share --}}
+<ul class="post-actions post-actions--top u-flex-center u-unstyled">
+	<li>
+		<a class="post-actions-comment scrolltop" href="#post-comments">
+			<i class="i-chat"></i>
+			<span class="ds-thread-count" data-thread-key="{{slug}}" data-count-type="comments"></span>
+		</a>
+	</li>
+	<li><a href="#" class="btn btn-circle-small share i-facebook bg-facebook" godo-share="facebook" godo-url="{{url absolute="true"}}"></a></li>
+	<li><a href="#" class="btn btn-circle-small share i-twitter bg-twitter" godo-share="twitter" godo-title="{{title}}" godo-url="{{url absolute="true"}}"></a></li>
+	<li><a href="#" class="btn btn-circle-small share i-reddit bg-reddit" godo-share="reddit" godo-url="{{url absolute="true"}}"></a></li>
+	<li><a href="#" class="btn btn-circle-small share i-linkedin bg-linkedin" godo-share="linkedin" godo-url="{{url absolute="true"}}"></a></li>
+	<li class="u-h-b-md"><a href="#" class="btn btn-circle-small share i-pinterest bg-pinterest" godo-share="pinterest" godo-title="{{title}}" godo-url="{{url absolute="true"}}"></a></li>
+	<li class="u-h-b-md"><a href="#" class="btn btn-circle-small share i-pocket bg-pocket" godo-share="pocket" godo-url="{{url absolute="true"}}"></a></li>
+	<li id="socialShare"></li>
+</ul>
+
