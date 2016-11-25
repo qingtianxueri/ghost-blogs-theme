@@ -1,22 +1,24 @@
 {
-  "name": "mapache-godofredo",
-  "version": "2.0.4",
-  "description": "Mapache theme for ghost by @GodoFredoNinja",
+  "name": "mapache-qingtian",
+  "version": "1.0.0",
+  "description": "Mapache theme for ghost by @qingtianxueri",
   "scripts": {},
-  "bugs": {
-	"url": "https://github.com/godofredoninja/Mapache/issues",
-	"email": "hello@godofredo.ninja"
-  },
   "license": "MIT",
-  "author": {
-	"name": "GodoFredoNinja",
-	"email": "hello@godofredo.ninja",
-	"url": "https://godofredo.ninja"
-  },
+  "author": "qingtian (http://blogs.qingtianxueri.com)",
   "repository": {
-	"type": "git",
-	"url": "https://github.com/godofredoninja/Mapache"
+    "type": "git",
+    "url": "git+https://github.com/qingtianxueri/ghost-blogs-theme"
   },
   "dependencies": {},
-  "devDependencies": {}
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-clean-css": "^2.0.13",
+    "gulp-concat": "^2.6.1",
+    "gulp-jshint": "^2.0.4",
+    "gulp-notify": "^2.2.0",
+    "gulp-sass": "^2.3.2",
+    "gulp-uglify": "^2.0.0"
+  },
+  "homepage": "https://github.com/qingtianxueri/ghost-blogs-theme#readme",
+  "main": "index.js"
 }
