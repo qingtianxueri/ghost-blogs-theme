@@ -68,19 +68,14 @@
 					{{> widget-post-author}}
 					
 					<!-- start -->
+					{{!-- post Comments Section --}}
 					<section class="post-comments">
+						{{!-- Comments section for duoshuo --}}
 					    <div class="ds-thread" data-thread-key="{{slug}}" data-title="{{{title}}}" data-url="{{url absolute="true"}}">
 					    </div>
 					</section>
 					<!-- end -->
 					
-					{{!-- post Comments Section --}}
-					<div id="post-comments" class="post-comments">
-						<div id="disqus_thread" class="mapache-disqus"></div>
-						{{!-- Comments section for facebook --}}
-						<div class="fb-comments mapache-facebook" data-href="{{url absolute="true"}}" data-width="100%" data-numposts="5"></div>
-					</div>
-
 					{{!-- Post Related --}}
 					{{> widget-post-related}}
 				</article>
