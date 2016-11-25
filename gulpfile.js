@@ -1,6 +1,3 @@
-//gulpfile.js 示例文件
-
-//导入你所需要用的工具包 require('node_modules里对应模块')
 var gulp = require('gulp'),
     sass = require('gulp-sass');
     cssmin = require('gulp-minify-css'),
@@ -11,29 +8,29 @@ var gulp = require('gulp'),
     notify = require('gulp-notify');
     del = require('del');
 
-// css
+// css combine and compress
 gulp.task('css', function(){
-    gulp.src('assets/scss/*.scss') //获取该任务需要的文件
-      .pipe(sass())                 //该任务调用的模块
-      .pipe(gulp.dest('assets/css'));  //将在 src/css 文件夹中生产test.css
+    gulp.src('assets/scss/*.scss')                      //get scss files
+      .pipe(sass())
+      .pipe(gulp.dest('assets/css'));                   //output folder
     
     return gulp.src('assets/css/s*.css')
         .pipe(concat('main.css'))
         .pipe(gulp.dest('assets/minified'))
-        .pipe(rename({suffix: '.min'}))   //rename压缩后的文件名
-        .pipe(cssmin())   //执行压缩
-        .pipe(gulp.dest('assets/minified'))  //输出文件夹
+        .pipe(rename({suffix: '.min'}))                 //rename the css file that compressed
+        .pipe(cssmin())                                 //compress
+        .pipe(gulp.dest('assets/minified'))             //output folder
         .pipe(notify({ message: 'css task ok' }));
 });
 
 // js 
 gulp.task('js', function() {
     return gulp.src('assets/js/s*.js')
-        .pipe(concat('main.js'))   //合并所有js到main.js
-        .pipe(gulp.dest('assets/minified'))  //输出main.js到文件夹
-        .pipe(rename({suffix: '.min'}))   //rename压缩后的文件名
-        .pipe(uglify())    //压缩
-        .pipe(gulp.dest('assets/minified')) //输出
+        .pipe(concat('main.js'))                        //combine all js to main.js
+        .pipe(gulp.dest('assets/minified'))             //output folder
+        .pipe(rename({suffix: '.min'}))                 //rename the js file that compressed
+        .pipe(uglify())                                 //compress
+        .pipe(gulp.dest('assets/minified'))             //output folder
         .pipe(notify({ message: 'js task ok' }));
 });
 
@@ -42,20 +39,18 @@ gulp.task('clean', function(cb) {
     del(['assets/minified/main.css', 'assets/minified/main.js'], cb)
 });
 
-// 默认任务
+// default task
 gulp.task('default', ['clean'], function() {
     gulp.start('css', 'js');
 });
 
 gulp.task('watch',['watchcss','watchjs']);
 
-//监听文件
+//watch file
 gulp.task('watchcss',function(){
-    return gulp.watch('assets/scss/style.scss',['css']);
-    //监听 src/css/test.scss 文件，修改时自动执行 sass 任务。
+    return gulp.watch('assets/scss/s*.scss',['css']);    //watch assets/scss/s*.scss, run css task
 });
 
 gulp.task('watchjs',function(){
-    return gulp.watch('assets/js/main.js',['js']);
-    //监听 src/css/test.scss 文件，修改时自动执行 sass 任务。
+    return gulp.watch('assets/js/s*.js',['js']);        //watch assets/js/s*.js, run js task.
 });
