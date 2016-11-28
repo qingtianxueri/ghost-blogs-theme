@@ -10,7 +10,6 @@
     "url": "git+https://github.com/qingtianxueri/ghost-blogs-theme"
   },
   "dependencies": {
-    "notify-send": "^0.1.2"
   },
   "devDependencies": {
     "del": "^2.2.2",

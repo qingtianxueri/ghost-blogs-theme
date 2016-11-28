@@ -20,7 +20,6 @@ gulp.task('css', function(){
         .pipe(rename({suffix: '.min'}))                 //rename the css file that compressed
         .pipe(cssmin())                                 //compress
         .pipe(gulp.dest('assets/minified'))             //output folder
-        .pipe(notify({ message: 'css task ok' }));
 });
 
 // js 
@@ -31,7 +30,6 @@ gulp.task('js', function() {
         .pipe(rename({suffix: '.min'}))                 //rename the js file that compressed
         .pipe(uglify())                                 //compress
         .pipe(gulp.dest('assets/minified'))             //output folder
-        .pipe(notify({ message: 'js task ok' }));
 });
 
 //clean the file before compress
