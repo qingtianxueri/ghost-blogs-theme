@@ -66,16 +66,16 @@
 
 					{{!-- Post author info --}}
 					{{> widget-post-author}}
-					
+
 					<!-- start -->
 					{{!-- post Comments Section --}}
-					<a href="javascript:void(0);" onclick="toggleDuoshuoComments('#post-comments')">展开评论</a>
+					<!-- <a class="post-triggerComment" href="javascript:void(0);" onclick="window.app.duoshuoCommentLayer('#post-comments')">展开评论</a> -->
 					<section class="post-comments" id="post-comments">
-					    <div class="ds-thread-hidden" data="{{slug}}">
+					    <div class="ds-thread-hidden" data="{{slug}}" url="{{url absolute="true"}}">
 					    </div>
 					</section>
 					<!-- end -->
-					
+
 					{{!-- Post Related --}}
 					{{> widget-post-related}}
 				</article>
@@ -88,20 +88,17 @@
 </section>
 {{/post}}
 
-<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+
 <script type="text/javascript">var duoshuoQuery = {short_name:"qingtianxueri"};</script>
 <script src="http://static.duoshuo.com/embed.js"></script>
-<!-- 多说公共JS代码 end -->
+<script type="text/javascript">
+	function duoshuoCountCallBack(data) {
+		console.log(data);
+	}
+</script>
 
 <script type="text/javascript">
-	var thread_key = $('.ds-thread-hidden').attr('data');
-	function toggleDuoshuoComments(container){
-	    var el = document.createElement('div');
-	    el.setAttribute('data-thread-key', thread_key);
-	    el.setAttribute('data-url', "{{url absolute="true"}}");
-	    DUOSHUO.EmbedThread(el);
-	    jQuery(container).append(el);
-	}
+
 	$(function() {
             $("#socialShare").socialShare({
                 content: 'asdfasdfasdfdasfasdfsdfasdfasdfasd',

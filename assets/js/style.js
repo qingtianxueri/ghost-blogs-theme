@@ -1,20 +1,42 @@
 (function ($, undefined) {
-    
-    window.app = window.app || {};
-    
-     window.app.theme = {
-        init: function(){
-            
-        },
-        
-        commentLayer: function(container, postID, authorID) {
-            console.log(container, postID, authorID);
-            var el = document.createElement('div');//该div不需要设置class="ds-thread"
-            el.setAttribute('data-thread-key', postID);//必选参数
-            el.setAttribute('data-url', 'http://localhost:2368/');//必选参数
-            el.setAttribute('data-author-key', authorID);//可选参数
-            DUOSHUO.EmbedThread(el);
-            jQuery(container).append(el);
-        },
-     };
+
+  window.app = window.app || {};
+
+  window.app = {
+
+    initApp: function() {
+      this.duoshuoCommentLayer('#post-comments');
+      this.duoshuoCommentCount();
+    },
+
+    duoshuoAddJs: function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0]
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+    },
+
+    duoshuoCommentLayer: function(container) {
+        var thread_key = $('.ds-thread-hidden').attr('data');
+        var url = $('.ds-thread-hidden').attr('url');
+        var el = document.createElement('div');
+        el.setAttribute('data-thread-key', thread_key);
+        el.setAttribute('data-url', url);
+        DUOSHUO.EmbedThread(el);
+        jQuery(container).append(el);
+    },
+
+    duoshuoCommentCount: function(){
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';
+        var short_name = 'qingtianxueri';
+        var thread_key = $('.duoshuo-comment-count').attr('data');
+        ds.src = "http://api.duoshuo.com/threads/counts.jsonp?short_name=" + short_name + "&threads=" + thread_key + "&callback=duoshuoCountCallBack";
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0]
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+    },
+  };
 })(jQuery);
