@@ -831,7 +831,6 @@
                     }))
                 },
                 loadAPI: function() {
-                    if (this.isInit) return !1;
                     var index = this.index,
                         blogData = this.blogData;
                     $.get(ghost.url.api("posts", {
@@ -1289,10 +1288,11 @@
                         typescript: "javascript",
                         wiki: "markup"
                     },
+
                     c = {},
                     a = "none",
                     s = Prism.plugins.autoloader = {
-                        languages_path: "components/",
+                        languages_path: "../assets/js/prism-components/",
                         use_minified: !0
                     },
                     n = function(e, c, a) {

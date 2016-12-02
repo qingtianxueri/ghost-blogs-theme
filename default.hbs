@@ -40,20 +40,32 @@
 	<a href="#" class="scroll_top u-h-b-lg i-arrow_upward"></a>
 
 	{{!-- The main JavaScript file for Mapache --}}
+	<script type="text/javascript">var duoshuoQuery = {short_name:"qingtianxueri"};</script>
+	<script src="https://static.duoshuo.com/embed.js"></script>
 	<script src="{{asset "js/style.js"}}" data-no-instant></script>
-	<script src="{{asset "js/default.js"}}"></script>
 	<script src="{{asset "minified/main.min.js"}}"></script>
 	<script src="{{asset "js/instantclick.js"}}" data-no-instant></script>
+	<script src="{{asset "js/default.js"}}"></script>
 	<script data-no-instant>
+		function duoshuoCountCallBack(data) {
+			var thread_key = $('.ds-thread-hidden').attr('data');
+
+			if(data.code == 0) {
+				var commentCount = data.response[thread_key].comments;
+				$('.duoshuo-comment-count').text(commentCount + '条评论');
+			}
+		}
+		
 		$(document).on('ready', function(){
-			window.app.initApp();
+			window.app.documentReadyInitApp();
 		});
 		InstantClick.on('change', function(isInstant){
 			if (isInstant === false) {
-				window.app.initApp();
+				window.app.instantClickInitApp();
 			}
 		});
 		InstantClick.init();
 	</script>
+	
 </body>
 </html>
