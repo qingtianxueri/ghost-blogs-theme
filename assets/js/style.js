@@ -5,18 +5,20 @@
   window.app = {
 
     instantClickInitApp: function() {
+      this.appCoverScroll();
+      this.articleLearnMore();
       this.duoshuoCommentLayer('#post-comments');
       this.duoshuoCommentCountForArticle();
       this.duoshuocommentCountForArticles();
       this.seachSuggest();
     },
-    
+
     documentReadyInitApp: function() {
       this.duoshuoCommentLayer('#post-comments');
       this.duoshuoCommentCountForArticle();
       this.duoshuocommentCountForArticles();
     },
-    
+
     duoshuoAddJs: function() {
       var ds = document.createElement('script');
       ds.type = 'text/javascript';ds.async = true;
@@ -37,29 +39,31 @@
     },
 
     duoshuoCommentCountForArticle: function(){
-      if ($('.get-comment-count-script').length) {
-        $('.get-comment-count-script').remove();
-      }
-      var ds = document.createElement('script');
-      ds.type = 'text/javascript';
-      ds.setAttribute('class', 'get-comment-count-script');
-      var short_name = 'qingtianxueri';
       var thread_key = $('.duoshuo-comment-count').attr('data');
       if (thread_key === undefined) {
         return;
       }
-      ds.src = "http://api.duoshuo.com/threads/counts.jsonp?short_name=" + short_name + "&threads=" + thread_key + "&callback=duoshuoCountCallBack";
-      ds.charset = 'UTF-8';
-      (document.getElementsByTagName('head')[0]
-       || document.getElementsByTagName('body')[0]).appendChild(ds);
+      countUrl = "https://api.duoshuo.com/threads/counts.jsonp?short_name=qingtianxueri&threads=" + thread_key;
+      $.ajax({
+          type : "get",
+          async: true,
+          url : countUrl,
+          dataType : "jsonp",
+          success : function(data){
+            if (data.code == 0) {
+              commentCount = data.response[thread_key].comments;
+              $('.duoshuo-comment-count').text(commentCount + '条评论');
+            }
+          }
+        });
     },
-    
+
     duoshuocommentCountForArticles: function() {
       $('.entry-pagination').each(function(){
         var thread_key = $(this).find('.duoshuo-entry-comment-count').attr('data');
-        var $this = $(this); 
+        var $this = $(this);
         countUrl = "https://api.duoshuo.com/threads/counts.jsonp?short_name=qingtianxueri&threads=" + thread_key;
-        
+
         $.ajax({
           type : "get",
           async: true,
@@ -74,7 +78,7 @@
         });
       });
     },
-    
+
     seachSuggest: function() {
       var $gd_header = $("#header"),
           $gd_page_url = $("body").attr("mapache-page-url"),
@@ -97,6 +101,44 @@
         result_template: '<a href="' + $gd_page_url + '{{link}}">{{title}}</a>',
         onKeyUp: !0
       })
+    },
+
+    appCoverScroll: function() {
+      $(window).scroll(function() {
+        var scrollTop = $(window).scrollTop(),
+          gd_cover_height = $("#cover").height() - $("#header").height(),
+          gd_cover_wrap = (gd_cover_height - scrollTop) / gd_cover_height;
+        scrollTop >= gd_cover_height ? $("#header").addClass("toolbar-shadow").removeAttr("style") : $("#header").removeClass("toolbar-shadow").css({
+            background: "transparent"
+        });
+        $(".cover-wrap").css("opacity", gd_cover_wrap);
+      });
+    },
+
+    articleLearnMore: function() {
+      var page = 2,
+          self = this,
+          $pagination = $("#pagination"),
+          pageTotal = $pagination.attr("mapache-page"),
+          $win = $(window);
+      pageTotal >= page && $(".pagination").css("display", "block"), $pagination.on("click", function(e) {
+          e.preventDefault(), $pagination.addClass("infinite-scroll"), page <= pageTotal ? self.getPostPrivate() : $(".pagination").remove()
+      }), $win.on("scroll", function() {
+          $pagination.hasClass("infinite-scroll") && $win.scrollTop() + $win.height() == $(document).height() && (page <= pageTotal ? self.getPostPrivate() : $(".pagination").remove())
+      })
+    },
+
+    getPostPrivate: function() {
+      var page = 2,
+          urlPage = $("link[rel=canonical]").attr("href");
+      $("#pagination").addClass("loanding").html("Loading more"), fetch(urlPage + "page/" + page).then(function(res) {
+            return res.text()
+        }).then(function(body) {
+            setTimeout(function() {
+                var entries = $(".entry-pagination", body);
+                $(".feed-wrapper").append(entries), $("#pagination").removeClass("loanding").html("Load more"), page++
+            }, 1e3)
+        })
     },
   };
 })(jQuery);
