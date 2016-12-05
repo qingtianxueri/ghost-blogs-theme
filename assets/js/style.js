@@ -1,9 +1,11 @@
 (function ($, undefined) {
 
   window.app = window.app || {};
-
+  
+  
   window.app = {
-
+    page: 2,
+    
     instantClickInitApp: function() {
       this.appCoverScroll();
       this.articleLearnMore();
@@ -14,6 +16,7 @@
     },
 
     documentReadyInitApp: function() {
+      this.articleLearnMore();
       this.duoshuoCommentLayer('#post-comments');
       this.duoshuoCommentCountForArticle();
       this.duoshuocommentCountForArticles();
@@ -116,29 +119,41 @@
     },
 
     articleLearnMore: function() {
-      var page = 2,
-          self = this,
-          $pagination = $("#pagination"),
-          pageTotal = $pagination.attr("mapache-page"),
-          $win = $(window);
-      pageTotal >= page && $(".pagination").css("display", "block"), $pagination.on("click", function(e) {
-          e.preventDefault(), $pagination.addClass("infinite-scroll"), page <= pageTotal ? self.getPostPrivate() : $(".pagination").remove()
-      }), $win.on("scroll", function() {
-          $pagination.hasClass("infinite-scroll") && $win.scrollTop() + $win.height() == $(document).height() && (page <= pageTotal ? self.getPostPrivate() : $(".pagination").remove())
-      })
+      self = this,
+      $pagination = $("#pagination"),
+      pageTotal = $pagination.attr("mapache-page"),
+      $win = $(window);
+      pageTotal >= self.page && $(".pagination").css("display", "block");
+      $pagination.on("click", function(e) {
+          e.preventDefault(), $pagination.addClass("infinite-scroll");
+          self.page <= pageTotal ? self.getPostPrivate() : $(".pagination").remove()
+      });
+      // $win.on("scroll", function() {
+      //   if ($pagination.hasClass("infinite-scroll") && $win.scrollTop() + $win.height() == $(document).height()) {
+      //     console.log("scroll");
+      //     self.page <= pageTotal ? self.getPostPrivate() : $(".pagination").remove()
+      //   }
+      // })
     },
 
     getPostPrivate: function() {
-      var page = 2,
-          urlPage = $("link[rel=canonical]").attr("href");
-      $("#pagination").addClass("loanding").html("Loading more"), fetch(urlPage + "page/" + page).then(function(res) {
+      self = this,
+      urlPage =  window.location.host;
+      $("#pagination").addClass("loanding").html("Loading more");
+      fetch("http://" + urlPage + "/page/" + self.page).then(function(res) {
             return res.text()
         }).then(function(body) {
             setTimeout(function() {
-                var entries = $(".entry-pagination", body);
-                $(".feed-wrapper").append(entries), $("#pagination").removeClass("loanding").html("Load more"), page++
+              var entries = $(".entry-pagination", body);
+              $(".feed-wrapper").append(entries);
+              $("#pagination").removeClass("loanding").html("Load more");
+              self.page++;
             }, 1e3)
-        })
+        }).catch(function(e) {
+            console.log("Oops, error");
+          });
+        
+        return self.page;
     },
   };
 })(jQuery);
