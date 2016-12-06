@@ -14,7 +14,7 @@ gulp.task('css', function(){
       .pipe(sass())
       .pipe(gulp.dest('assets/css'));                   //output folder
     
-    return gulp.src('assets/css/s*.css')
+    return gulp.src('assets/css/*.css')
         .pipe(concat('main.css'))
         .pipe(gulp.dest('assets/minified'))
         .pipe(rename({suffix: '.min'}))                 //rename the css file that compressed
@@ -24,7 +24,7 @@ gulp.task('css', function(){
 
 // js 
 gulp.task('js', function() {
-    return gulp.src('assets/js/s*.js')
+    return gulp.src('assets/js/*.js')
         .pipe(concat('main.js'))                        //combine all js to main.js
         .pipe(gulp.dest('assets/minified'))             //output folder
         .pipe(rename({suffix: '.min'}))                 //rename the js file that compressed
