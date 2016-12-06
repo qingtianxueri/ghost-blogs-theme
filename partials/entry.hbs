@@ -1,5 +1,5 @@
 {{!-- Entry template --}}
-<article class="entry u-b-b entry-pagination">
+<article class="entry u-b-b entry-pagination wow bounceInRight">
 	<div class="row">
 		{{#if image}}
 		<figure class="col s12 entry-image">
@@ -19,7 +19,7 @@
 				<i class="i-chat"></i>
 				<a class="entry-comments" href="{{url}}#post-comments">
 					{{!-- Disqus Comments Count --}}
-					<span class="disqus-comment-count mapache-disqus" data-disqus-url="{{url absolute="true"}}">0</span>
+					<span class="duoshuo-entry-comment-count mapache-duoshuo" data="{{title}}">0</span>
 					{{!-- Facebook Comments Counts --}}
 					<span class="fb-comments-count mapache-facebook" data-href="{{url absolute="true"}}">0</span>
 					<span>Comments</span>

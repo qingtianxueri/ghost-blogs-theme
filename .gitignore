@@ -45,6 +45,5 @@ src
 webpackag.config.js
 .editorconfig
 gulpfile.babel.js
-assets/css/style.css
-assets/minified/main.css
-assets/minified/main.js
+/assets/minified/main.css
+/assets/minified/main.js

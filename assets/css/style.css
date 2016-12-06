@@ -2,13 +2,15 @@
   font-family: 'Exo';
   font-style: normal;
   font-weight: 100;
-  src: local("Exo Thin"), local("Exo-Thin"), url(../fonts/exo-thin.woff) format("woff"); }
+  src: local("Exo Thin"), local("Exo-Thin"), url(../fonts/exo-thin.woff) format("woff"), url("../fonts/exo-thin.eot?#iefix") format("embedded-opentype"), url("../fonts/exo-thin.woff2") format("woff2"), url("../fonts/exo-thin.ttf") format("truetype"), url("../fonts/exo-thin.svg#akzidenz-grotesk_stdregular") format("svg");
+  font-weight: normal;
+  font-style: normal; }
 
 @font-face {
   font-family: 'Exo';
   font-style: normal;
   font-weight: 400;
-  src: local("Exo Regular"), local("Exo-Regular"), url(../fonts/exo-regular.woff) format("woff"); }
+  src: local("Exo Regular"), local("Exo-Regular"), url(../fonts/exo-regular.woff) format("woff"), url("../fonts/exo-regular.eot?#iefix") format("embedded-opentype"), url("../fonts/exo-regular.woff2") format("woff2"), url("../fonts/exo-regular.ttf") format("truetype"), url("../fonts/exo-regular.svg#akzidenz-grotesk_stdregular") format("svg"); }
 
 body {
   font-family: Exo,'-apple-system','Open Sans',HelveticaNeue-Light,'Helvetica Neue Light','Helvetica Neue','Hiragino Sans GB','Microsoft YaHei',Helvetica,Arial,sans-serif; }

@@ -27,7 +27,7 @@
 				{{/if}}
 			{{/has}}
 
-			<div class="col s12 content">
+			<div class="col s12 content wow bounceInLeft">
 				{{!-- Article content  --}}
 				<article class="post">
 					<header class="post-header">
@@ -66,16 +66,16 @@
 
 					{{!-- Post author info --}}
 					{{> widget-post-author}}
-					
+
 					<!-- start -->
 					{{!-- post Comments Section --}}
-					<section class="post-comments">
-						{{!-- Comments section for duoshuo --}}
-					    <div class="ds-thread" data-thread-key="{{slug}}" data-title="{{{title}}}" data-url="{{url absolute="true"}}">
+					<!-- <a class="post-triggerComment" href="javascript:void(0);" onclick="window.app.duoshuoCommentLayer('#post-comments')">展开评论</a> -->
+					<section class="post-comments" id="post-comments">
+					    <div class="ds-thread-hidden" data="{{slug}}" url="{{url absolute="true"}}">
 					    </div>
 					</section>
 					<!-- end -->
-					
+
 					{{!-- Post Related --}}
 					{{> widget-post-related}}
 				</article>
@@ -88,27 +88,3 @@
 </section>
 {{/post}}
 
-<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-<script type="text/javascript">
-	var duoshuoQuery = {short_name:"qingtianxueri"};
-		(function() {
-			var ds = document.createElement('script');
-			ds.type = 'text/javascript';ds.async = true;
-			ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-			ds.charset = 'UTF-8';
-			(document.getElementsByTagName('head')[0] 
-			 || document.getElementsByTagName('body')[0]).appendChild(ds);
-		})();
-</script>
-<!-- 多说公共JS代码 end -->
-
-<script type="text/javascript">
-	$(function() {
-            $("#socialShare").socialShare({
-                content: 'asdfasdfasdfdasfasdfsdfasdfasdfasd',
-				url: window.location.href,
-				titile: document.title,
-            });
-
-        });
-</script>
