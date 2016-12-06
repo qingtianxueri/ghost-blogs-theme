@@ -13,6 +13,7 @@
       this.duoshuoCommentCountForArticle();
       this.duoshuocommentCountForArticles();
       this.seachSuggest();
+      this.socialShare();
     },
 
     documentReadyInitApp: function() {
@@ -20,6 +21,7 @@
       this.duoshuoCommentLayer('#post-comments');
       this.duoshuoCommentCountForArticle();
       this.duoshuocommentCountForArticles();
+      this.socialShare();
     },
 
     duoshuoAddJs: function() {
@@ -119,41 +121,43 @@
     },
 
     articleLearnMore: function() {
-      self = this,
+      appSelf = this,
       $pagination = $("#pagination"),
       pageTotal = $pagination.attr("mapache-page"),
       $win = $(window);
-      pageTotal >= self.page && $(".pagination").css("display", "block");
+      pageTotal >= appSelf.page && $(".pagination").css("display", "block");
       $pagination.on("click", function(e) {
           e.preventDefault(), $pagination.addClass("infinite-scroll");
-          self.page <= pageTotal ? self.getPostPrivate() : $(".pagination").remove()
+          appSelf.page <= pageTotal ? appSelf.getPostPrivate() : $(".pagination").remove()
       });
-      // $win.on("scroll", function() {
-      //   if ($pagination.hasClass("infinite-scroll") && $win.scrollTop() + $win.height() == $(document).height()) {
-      //     console.log("scroll");
-      //     self.page <= pageTotal ? self.getPostPrivate() : $(".pagination").remove()
-      //   }
-      // })
     },
 
     getPostPrivate: function() {
-      self = this,
+      appSelf = this,
       urlPage =  window.location.host;
       $("#pagination").addClass("loanding").html("Loading more");
-      fetch("http://" + urlPage + "/page/" + self.page).then(function(res) {
+      fetch("http://" + urlPage + "/page/" + appSelf.page).then(function(res) {
             return res.text()
         }).then(function(body) {
             setTimeout(function() {
               var entries = $(".entry-pagination", body);
               $(".feed-wrapper").append(entries);
               $("#pagination").removeClass("loanding").html("Load more");
-              self.page++;
+              appSelf.page++;
             }, 1e3)
         }).catch(function(e) {
             console.log("Oops, error");
           });
         
-        return self.page;
+        return appSelf.page;
+    },
+    
+    socialShare: function() {
+      $("#socialShare").socialShare({
+        content: 'test content',
+        url: window.location.href,
+        titile: document.title,
+      });
     },
   };
 })(jQuery);

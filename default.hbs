@@ -43,19 +43,21 @@
 	{{!-- The main JavaScript file for Mapache --}}
 	<script type="text/javascript">var duoshuoQuery = {short_name:"qingtianxueri"};</script>
 	<script src="https://static.duoshuo.com/embed.js"></script>
-	<script src="{{asset "js/style.js"}}" data-no-instant></script>
 	<script src="{{asset "minified/main.min.js"}}"></script>
 	<script src="{{asset "js/instantclick.js"}}" data-no-instant></script>
-	<script src="{{asset "js/default.js"}}"></script>
+	<script src="{{asset "js/default.js"}}" data-no-instant></script>
+	<script src="{{asset "js/style.js"}}" data-no-instant></script>
 	<script src="{{asset "js/wow.min.js"}}"></script>
 	<script data-no-instant>
 		$(document).on('ready', function(){
 			new WOW().init();
+			window.defaultApp.init();
 			window.app.documentReadyInitApp();
 		});
 		InstantClick.on('change', function(isInstant){
 			if (isInstant === false) {
 				new WOW().init();
+				window.defaultApp.init();
 				window.app.page = 2;
 				window.app.instantClickInitApp();
 			}

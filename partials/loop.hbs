@@ -8,7 +8,7 @@
 			{{#is "paged"}}
 				{{"pagination"}}
 			{{else}}
-				<div class="pagination" style="display:none">
+				<div class="pagination wow flip" style="display:none">
 					<a href="#" id="pagination" class="pagination-link" mapache-page="{{pagination.pages}}" mapache-limit="{{@blog.posts_per_page}}">Load more</a>
 				</div>
 			{{/is}}
