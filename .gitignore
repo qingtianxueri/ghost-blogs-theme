@@ -47,3 +47,4 @@ webpackag.config.js
 gulpfile.babel.js
 /assets/minified/main.css
 /assets/minified/main.js
+/assets/css/style.css
