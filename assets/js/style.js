@@ -155,6 +155,7 @@
       pageTotal = $pagination.attr("mapache-page"),
       appSelf = this,
       gd_cover_height = $("#cover").height() - $("#header").height(),
+      urlProtocol = window.location.protocol,
       urlPage =  window.location.host;
       if (key == "next") {
         $("#pagination").addClass("loanding").html("下一页");
@@ -163,7 +164,8 @@
       if (key == "prev") {
         $("#prev-pagination").addClass("loanding").html("上一页");
       }
-      fetch("http://" + urlPage + "/page/" + appSelf.page).then(function(res) {
+      // console.log(urlProtocol+ '//' + urlPage + "/page/" + appSelf.page);
+      fetch(urlProtocol+ '//' + urlPage + "/page/" + appSelf.page).then(function(res) {
             return res.text()
         }).then(function(body) {
             setTimeout(function() {
