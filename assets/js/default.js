@@ -91,62 +91,90 @@
                     url_regexp = /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \+\.-]*)*\/?$/,
                     $document = $(document),
                     $window = $(window);
+
                 $(".share").bind("click", function(e) {
                     e.preventDefault();
                     var share = new _app2["default"]($(this));
                     share.godoShare()
-                }), $("#nav-mob-toggle").on("click", function(e) {
+                });
+
+                $("#nav-mob-toggle").on("click", function(e) {
                     e.preventDefault(), $("body").toggleClass("is-showNavMob")
-                }), $("#search-mob-toggle").on("click", function(e) {
+                });
+
+                $("#search-mob-toggle").on("click", function(e) {
                     e.preventDefault(), $gd_header.toggleClass("is-showSearchMob"), $gd_search_input.focus()
-                }), "undefined" != typeof title_home && $("#title-home").html(title_home), $gd_search_input.focus(function() {
-                        $gd_header.addClass("is-showSearch"), $(".search-popout").removeClass("closed")
-                    }), $gd_search_input.blur(function() {
-                        setTimeout(function() {
-                            $gd_header.removeClass("is-showSearch"), $(".search-popout").addClass("closed")
-                        }, 200)
-                    }), $gd_search_input.keyup(function() {
-                        $(".search-suggest-results").css("display", "block")
-                    }), $gd_search_input.ghostHunter({
-                        results: "#search-results",
-                        zeroResultsInfo: !1,
-                        displaySearchInfo: !1,
-                        result_template: '<a href="' + $gd_page_url + '{{link}}">{{title}}</a>',
-                        onKeyUp: !0
-                    }), $document.on("ready", function() {
-                    function coverScroll() {
+                });
+
+                if ("undefined" != typeof(title_home)) {
+                    $("#title-home").html(title_home);
+                };
+
+                $gd_search_input.focus(function() {
+                    $gd_header.addClass("is-showSearch"), $(".search-popout").removeClass("closed")
+                });
+
+                $gd_search_input.blur(function() {
+                    setTimeout(function() {
+                        $gd_header.removeClass("is-showSearch"), $(".search-popout").addClass("closed")
+                    }, 200)
+                });
+
+                $gd_search_input.keyup(function() {
+                    $(".search-suggest-results").css("display", "block")
+                });
+
+                $gd_search_input.ghostHunter({
+                    results: "#search-results",
+                    zeroResultsInfo: !1,
+                    displaySearchInfo: !1,
+                    result_template: '<a href="' + $gd_page_url + '{{link}}">{{title}}</a>',
+                    onKeyUp: !0
+                });
+
+                if ($gd_cover.length > 0) {
+                    $window.on("scroll", function(){
                         var scrollTop = $window.scrollTop(),
-                            gd_cover_height = $gd_cover.height() - $gd_header.height(),
-                            gd_cover_wrap = (gd_cover_height - scrollTop) / gd_cover_height;
+                        gd_cover_height = $gd_cover.height() - $gd_header.height(),
+                        gd_cover_wrap = (gd_cover_height - scrollTop) / gd_cover_height;
                         scrollTop >= gd_cover_height ? $gd_header.addClass("toolbar-shadow").removeAttr("style") : $gd_header.removeClass("toolbar-shadow").css({
                             background: "transparent"
                         }), $(".cover-wrap").css("opacity", gd_cover_wrap)
-                    }
-                    $gd_cover.length > 0 && $window.on("scroll", coverScroll)
-                }), $(".scrolltop").on("click", function(e) {
+                    });
+                };
+
+                $(".scrolltop").on("click", function(e) {
                     e.preventDefault(), $("html, body").animate({
                         scrollTop: $($(this).attr("href")).offset().top - 50
                     }, 500, "linear")
-                }), $window.on("scroll", function() {
+                });
+
+                $window.on("scroll", function() {
                     $(this).scrollTop() > 100 ? $gd_scroll_top.addClass("visible") : $gd_scroll_top.removeClass("visible")
-                }), $gd_scroll_top.on("click", function(e) {
+                });
+
+                $gd_scroll_top.on("click", function(e) {
                     e.preventDefault(), $("html, body").animate({
                         scrollTop: 0
                     }, 500)
-                }), $document.on("ready", function() {
+                });
+                
+                $document.on("ready", function() {
                     if (shareConter(), "undefined" != typeof social_link && socialBox(social_link), $gd_comments.length > 0 && disqusComments(), "undefined" != typeof disqus_shortname && "undefined" != typeof disqusPublicKey && commentsCount(), $gd_video.length > 0 && videoPostFormat(), videoResponsive(), $gd_sidebar_fixed.length > 0 && sidebarFixed(), $gd_related.length > 0) {
                         var related = new _appRelated2["default"]($gd_related, $gd_page_url);
                         related.mapacheGet()
                     }
                     Prism.plugins.autoloader.languages_path = "../assets/js/prism-components/"
-                })
+                });
             }()
-        }, function(module, exports) {
+        }, 
+        function(module, exports) {
             "use strict";
             $(document).on("ready", function() {
                 
             })
-        }, function(module, exports) {
+        }, 
+        function(module, exports) {
             "use strict";
 
             function _classCallCheck(instance, Constructor) {
@@ -201,7 +229,8 @@
                     }]), mapacheRelated
                 }();
             module.exports = mapacheRelated
-        }, function(module, exports) {
+        }, 
+        function(module, exports) {
             "use strict";
 
             function _classCallCheck(instance, Constructor) {
@@ -248,7 +277,8 @@
                     }]), GodoShareCount
                 }();
             module.exports = GodoShareCount
-        }, function(module, exports) {
+        }, 
+        function(module, exports) {
             "use strict";
 
             function _classCallCheck(instance, Constructor) {
@@ -344,7 +374,8 @@
                     }]), GodoShare
                 }();
             module.exports = GodoShare
-        }, function(module, exports) {
+        }, 
+        function(module, exports) {
             "use strict";
             ! function($) {
                 var lunr = function lunr(t) {
@@ -863,7 +894,8 @@
                         }
                     }
             }(jQuery)
-        }, function(module, exports) {
+        }, 
+        function(module, exports) {
             (function(global) {
                 "use strict";
                 var _self = "undefined" != typeof window ? window : "undefined" != typeof WorkerGlobalScope && self instanceof WorkerGlobalScope ? self : {},
@@ -1341,7 +1373,7 @@
             }).call(exports, function() {
                 return this
             }())
-        }
+        },
     ],
     callLogicFunc: function(modules) {
         function __webpack_require__(moduleId) {

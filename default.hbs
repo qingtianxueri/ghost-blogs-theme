@@ -54,7 +54,8 @@
 			if (isInstant === false) {
 				new WOW().init();
 				window.defaultApp.init();
-				window.app.page = 2;
+				//设置文章列表获取下一页从第二页开始
+				window.app.page = 1;
 				window.app.instantClickInitApp();
 			}
 		});
