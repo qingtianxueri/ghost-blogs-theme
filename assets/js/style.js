@@ -1,11 +1,11 @@
 (function ($, undefined) {
 
   window.app = window.app || {};
-  
-  
+
+
   window.app = {
     page: 1,
-    
+
     instantClickInitApp: function() {
       this.appCoverScroll();
       this.articleLearnNext();
@@ -154,6 +154,7 @@
     getPostPrivate: function(key) {
       pageTotal = $pagination.attr("mapache-page"),
       appSelf = this,
+      gd_cover_height = $("#cover").height() - $("#header").height(),
       urlPage =  window.location.host;
       if (key == "next") {
         $("#pagination").addClass("loanding").html("下一页");
@@ -188,13 +189,14 @@
                if (key == "prev") {
                 $("#prev-pagination").removeClass("loanding").html("上一页");
                }
+               $("html, body").animate({scrollTop: gd_cover_height}, 500)
             }, 1e3)
         }).catch(function(e) {
             console.log("Oops, error");
           });
         console.log(appSelf.page);
     },
-    
+
     socialShare: function() {
       $("#socialShare").socialShare({
         content: 'test content',
