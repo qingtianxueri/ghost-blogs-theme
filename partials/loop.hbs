@@ -9,7 +9,10 @@
 				{{"pagination"}}
 			{{else}}
 				<div class="pagination wow flip" style="display:none">
-					<a href="#" id="pagination" class="pagination-link" mapache-page="{{pagination.pages}}" mapache-limit="{{@blog.posts_per_page}}">Load more</a>
+					<a href="#" id="pagination" class="pagination-link" mapache-page="{{pagination.pages}}" mapache-limit="{{@blog.posts_per_page}}">下一页</a>
+				</div>
+				<div class="pagination wow flip" style="display:none">
+					<a href="#" id="prev-pagination" class="pagination-link" mapache-page="{{pagination.pages}}" mapache-limit="{{@blog.posts_per_page}}" disabled="disabled">上一页</a>
 				</div>
 			{{/is}}
 		</div>

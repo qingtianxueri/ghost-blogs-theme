@@ -47,3 +47,21 @@ body {
     }
   }
 }
+
+.pagination {
+  width: 50%;
+  float: right;
+
+  a.pagination-link[disabled] {
+    pointer-events: none;
+    cursor: not-allowed;
+    opacity: .65;
+    filter: alpha(opacity=65);
+    -webkit-box-shadow: none;
+    box-shadow: none;
+
+    &:before {
+      background-color: rgba(66, 133, 244, 0.33);
+    }
+  }
+}

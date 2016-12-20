@@ -4,11 +4,12 @@
   
   
   window.app = {
-    page: 2,
+    page: 1,
     
     instantClickInitApp: function() {
       this.appCoverScroll();
-      this.articleLearnMore();
+      this.articleLearnNext();
+      this.articleLearnPrev();
       this.duoshuoCommentLayer('#post-comments');
       this.duoshuoCommentCountForArticle();
       this.duoshuocommentCountForArticles();
@@ -17,7 +18,8 @@
     },
 
     documentReadyInitApp: function() {
-      this.articleLearnMore();
+      this.articleLearnNext();
+      this.articleLearnPrev();
       this.duoshuoCommentLayer('#post-comments');
       this.duoshuoCommentCountForArticle();
       this.duoshuocommentCountForArticles();
@@ -120,7 +122,7 @@
       });
     },
 
-    articleLearnMore: function() {
+    articleLearnNext: function() {
       appSelf = this,
       $pagination = $("#pagination"),
       pageTotal = $pagination.attr("mapache-page"),
@@ -128,28 +130,69 @@
       pageTotal >= appSelf.page && $(".pagination").css("display", "block");
       $pagination.on("click", function(e) {
           e.preventDefault(), $pagination.addClass("infinite-scroll");
-          appSelf.page <= pageTotal ? appSelf.getPostPrivate() : $(".pagination").remove()
+          if (appSelf.page <= pageTotal) {
+            appSelf.page++;
+            appSelf.getPostPrivate('next');
+          }
       });
     },
 
-    getPostPrivate: function() {
+    articleLearnPrev: function() {
+      appSelf = this,
+      $pagination = $("#prev-pagination"),
+      pageTotal = $pagination.attr("mapache-page"),
+      $win = $(window);
+      $pagination.on("click", function(e) {
+          e.preventDefault(), $pagination.addClass("infinite-scroll");
+          if (appSelf.page <= pageTotal) {
+            appSelf.page--;
+            appSelf.getPostPrivate('prev');
+          }
+      });
+    },
+
+    getPostPrivate: function(key) {
+      pageTotal = $pagination.attr("mapache-page"),
       appSelf = this,
       urlPage =  window.location.host;
-      $("#pagination").addClass("loanding").html("Loading more");
+      if (key == "next") {
+        $("#pagination").addClass("loanding").html("下一页");
+      }
+
+      if (key == "prev") {
+        $("#prev-pagination").addClass("loanding").html("上一页");
+      }
       fetch("http://" + urlPage + "/page/" + appSelf.page).then(function(res) {
             return res.text()
         }).then(function(body) {
             setTimeout(function() {
               var entries = $(".entry-pagination", body);
-              $(".feed-wrapper").append(entries);
-              $("#pagination").removeClass("loanding").html("Load more");
-              appSelf.page++;
+              $(".feed-wrapper").html(entries);
+
+              if (appSelf.page >= pageTotal) {
+                $("#pagination").attr('disabled', 'disabled');
+              } else {
+                $("#pagination").removeAttr('disabled');
+              }
+
+              if (appSelf.page <= 1) {
+                $("#prev-pagination").attr('disabled', 'disabled');
+              } else {
+                $('#prev-pagination').removeAttr('disabled');
+              }
+
+               if (key == "next") {
+                $("#pagination").removeClass("loanding").html("下一页");
+               }
+
+               if (key == "prev") {
+                $("#prev-pagination").removeClass("loanding").html("上一页");
+               }
             }, 1e3)
         }).catch(function(e) {
             console.log("Oops, error");
           });
-        
-        return appSelf.page;
+        console.log(appSelf.page);
     },
     
     socialShare: function() {
