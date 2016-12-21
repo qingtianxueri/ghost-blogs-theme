@@ -127,7 +127,11 @@
       $pagination = $("#pagination"),
       pageTotal = $pagination.attr("mapache-page"),
       $win = $(window);
-      pageTotal >= appSelf.page && $(".pagination").css("display", "block");
+
+      if (pageTotal > appSelf.page) {
+        $(".pagination").css("display", "block");
+      }
+
       $pagination.on("click", function(e) {
           e.preventDefault(), $pagination.addClass("infinite-scroll");
           if (appSelf.page <= pageTotal) {
