@@ -21,7 +21,7 @@
 	<link href="https://fonts.googleapis.com/css?family=Roboto+Mono|Roboto:300,400,500" rel="stylesheet">
 
 	{{!-- jQuery --}}
-	<script src="https://ajax.microsoft.com/ajax/jquery/jquery-2.2.4.min.js"></script>
+	<script src="{{asset "minified/jquery-2.2.4.min.js"}}"></script>
 	{{! Ghost outputs important style and meta data with this tag }}
 	{{ghost_head}}
 </head>
@@ -43,7 +43,11 @@
 	<script src="https://static.duoshuo.com/embed.js"></script>
 	<script src="{{asset "minified/instantclick.min.js"}}" data-no-instant></script>
 	<script src="{{asset "minified/wow.min.js"}}"></script>
-	<script src="{{asset "minified/main.min.js"}}" data-no-instant></script>
+	<!-- <script src="{{asset "minified/main.min.js"}}" data-no-instant></script> -->
+	<script src="{{asset "js/default.js"}}"></script>
+	<script src="{{asset "js/default_test.js"}}"></script>
+	<script src="{{asset "js/share.js"}}"></script>
+	<script src="{{asset "js/style.js"}}"></script>
 	<script data-no-instant>
 		$(document).on('ready', function(){
 			new WOW().init();
