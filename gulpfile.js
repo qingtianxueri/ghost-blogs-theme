@@ -13,7 +13,7 @@ gulp.task('css', function(){
     gulp.src('assets/scss/*.scss')                      //get scss files
       .pipe(sass())
       .pipe(gulp.dest('assets/css'));                   //output folder
-    
+
     return gulp.src('assets/css/*.css')
         .pipe(concat('main.css'))
         .pipe(gulp.dest('assets/minified'))
@@ -22,7 +22,7 @@ gulp.task('css', function(){
         .pipe(gulp.dest('assets/minified'))             //output folder
 });
 
-// js 
+// js
 gulp.task('js', function() {
     return gulp.src('assets/js/*.js')
         .pipe(concat('main.js'))                        //combine all js to main.js
@@ -38,8 +38,7 @@ gulp.task('clean', function(cb) {
 });
 
 // default task
-gulp.task('default', ['clean'], function() {
-    gulp.start('css', 'js');
+gulp.task('build', ['clean','css', 'js'], function() {
 });
 
 gulp.task('watch',['watchcss','watchjs']);

@@ -465,7 +465,7 @@
                 if (e.avatar_url) {
                     e.avatar_url = (document.location.protocol == "https:") ? e.avatar_url.replace(/^http\:\/\//, "https://") : e.avatar_url
                 } else {
-                    nt.data.default_avatar_url = (document.location.protocol == "https:") ? nt.data.default_avatar_url.replace(/^http\:\/\//, "https://") : nt.data.default_avatar_url
+                    nt.data.default_avatar_url = (document.location.protocol == "https:") ? nt.data.avatar_url.replace(/^http\:\/\//, "https://") : nt.data.avatar_url
                 }
                 return e.avatar_url || rt.data.default_avatar_url
             }, loginUrl: function (e, t) {

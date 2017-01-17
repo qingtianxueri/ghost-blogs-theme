@@ -150,28 +150,6 @@
     }()
 }, function(module, exports) {
     "use strict";
-    $(document).on("ready", function() {
-        function getPost() {
-            $pagination.addClass("loanding").html("Loading more"), fetch(urlPage + "page/" + page).then(function(res) {
-                return res.text()
-            }).then(function(body) {
-                setTimeout(function() {
-                    var entries = $(".entry-pagination", body);
-                    $(".feed-wrapper").append(entries), $pagination.removeClass("loanding").html("Load more"), page++
-                }, 1e3)
-            })
-        }
-        var page = 2,
-            $pagination = $("#pagination"),
-            pageTotal = $pagination.attr("mapache-page"),
-            urlPage = $("link[rel=canonical]").attr("href"),
-            $win = $(window);
-        pageTotal >= page && $(".pagination").css("display", "block"), $pagination.on("click", function(e) {
-            e.preventDefault(), $pagination.addClass("infinite-scroll"), page <= pageTotal ? getPost() : $(".pagination").remove()
-        }), $win.on("scroll", function() {
-            $pagination.hasClass("infinite-scroll") && $win.scrollTop() + $win.height() == $(document).height() && (page <= pageTotal ? getPost() : $(".pagination").remove())
-        })
-    })
 }, function(module, exports) {
     "use strict";
 
