@@ -55,6 +55,48 @@ body {
 .pagination {
   width: 50%;
   float: right;
+  margin: 4rem auto;
+  position: relative;
+
+  .pagination-link {
+    -ms-flex-align: center;
+    align-items: center;
+    -ms-flex-line-pack: center;
+    align-content: center;
+    color: #4285f4;
+    display: -ms-flexbox;
+    display: flex;
+    height: 120px;
+    -ms-flex-pack: center;
+    justify-content: center;
+    margin: 0 auto;
+    position: relative;
+    transition: opacity 320ms ease;
+    width: 120px;
+
+    &:before {
+      border-radius: 50%;
+      border: 2px solid #4285f4;
+      content: '';
+      left: 0;
+      position: absolute;
+      top: 0;
+      height: 120px;
+      width: 120px;
+    }
+  }
+
+  .pagination-link.loanding {
+
+    &:before {
+      border: 2px solid #ccc;
+      border-bottom: 2px solid #4285f4;
+      animation-name: spin;
+      animation-duration: .7s;
+      animation-iteration-count: infinite;
+      animation-timing-function: linear;
+    }
+  }
 
   a.pagination-link[disabled] {
     pointer-events: none;
@@ -68,4 +110,20 @@ body {
       background-color: rgba(66, 133, 244, 0.33);
     }
   }
+
+  a.pagination-link.loanding[disabled] {
+
+    &:before {
+      background-color: rgba(76, 175, 80, .49);
+    }
+  }
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg)
+    }
+    to {
+        transform: rotate(360deg)
+    }
 }
