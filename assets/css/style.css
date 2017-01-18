@@ -13,7 +13,10 @@
   src: local("Exo Regular"), local("Exo-Regular"), url(../fonts/Exo-regular.woff) format("woff"), url("../fonts/Exo-regular.eot?#iefix") format("embedded-opentype"), url("../fonts/Exo-regular.woff2") format("woff2"), url("../fonts/Exo-regular.ttf") format("truetype"), url("../fonts/Exo-regular.svg#akzidenz-grotesk_stdregular") format("svg"); }
 
 body {
-  font-family: Exo,'-apple-system','Open Sans',HelveticaNeue-Light,'Helvetica Neue Light','Helvetica Neue','Hiragino Sans GB','Microsoft YaHei',Helvetica,Arial,sans-serif; }
+  font-family: Exo,'-apple-system','Open Sans',HelveticaNeue-Light,'Helvetica Neue Light','Helvetica Neue','Hiragino Sans GB','Microsoft YaHei',Helvetica,Arial,sans-serif;
+  background-color: #f2f2f2; }
+  body section.container {
+    background-color: #fff; }
 
 #instantclick-bar {
   background: #E91E63;
