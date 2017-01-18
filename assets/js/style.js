@@ -133,6 +133,7 @@
       }
 
       $pagination.on("click", function(e) {
+          $("#pagination").attr('disabled', 'disabled');
           e.preventDefault(), $pagination.addClass("infinite-scroll");
           if (appSelf.page <= pageTotal) {
             appSelf.page++;
@@ -147,6 +148,7 @@
       pageTotal = $pagination.attr("mapache-page"),
       $win = $(window);
       $pagination.on("click", function(e) {
+          $("#prev-pagination").attr('disabled', 'disabled');
           e.preventDefault(), $pagination.addClass("infinite-scroll");
           if (appSelf.page <= pageTotal) {
             appSelf.page--;
@@ -174,17 +176,13 @@
         }).then(function(body) {
             setTimeout(function() {
               var entries = $(".entry-pagination", body);
-              $(".feed-wrapper").html(entries);
+              $(".feed-entry-wrapper").html(entries);
 
-              if (appSelf.page >= pageTotal) {
-                $("#pagination").attr('disabled', 'disabled');
-              } else {
+              if (appSelf.page < pageTotal) {
                 $("#pagination").removeAttr('disabled');
               }
 
-              if (appSelf.page <= 1) {
-                $("#prev-pagination").attr('disabled', 'disabled');
-              } else {
+              if (appSelf.page > 1) {
                 $('#prev-pagination').removeAttr('disabled');
               }
 
