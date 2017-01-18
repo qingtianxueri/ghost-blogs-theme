@@ -176,66 +176,6 @@
     },
     function(module, exports) {
         "use strict";
-
-        function _classCallCheck(instance, Constructor) {
-            if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function")
-        }
-        var _createClass = function() {
-                function defineProperties(target, props) {
-                    for (var i = 0; i < props.length; i++) {
-                        var descriptor = props[i];
-                        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor)
-                    }
-                }
-                return function(Constructor, protoProps, staticProps) {
-                    return protoProps && defineProperties(Constructor.prototype, protoProps), staticProps && defineProperties(Constructor, staticProps), Constructor
-                }
-            }(),
-            mapacheRelated = function() {
-                function mapacheRelated(elem, pageUrl) {
-                    _classCallCheck(this, mapacheRelated);
-                    this.elem = elem;
-                    this.postID = elem.attr("mapache-post-id");
-                    this.postTotal = elem.attr("mapache-post-total");
-                    this.postTags = elem.attr("mapache-tag");
-                    this.urlApi = ghost.url.api("posts", {
-                        include: "tags"
-                    });
-                    this.count = 0;
-                    this.pageUrl = pageUrl;
-                }
-                return _createClass(mapacheRelated, [{
-                    key: "mapacheCallback",
-                    value: function(res) {
-                        var _this = this,
-                            html = "";
-                        res.forEach(function(post) {
-                            for (var i = 0; i < post.tags.length; i++) post.tags[i].id == _this.postTags && post.id != _this.postID && _this.count < _this.postTotal && (html += _this.mapacheTemplate(post), _this.count++)
-                        }), 0 == this.count && this.elem.css("display", "none"), $("#post-related-wrap").html(html)
-                    }
-                }, {
-                    key: "mapacheTemplate",
-                    value: function(post) {
-                        var html = "",
-                            post_image = "",
-                            post_no_cover = "no-image",
-                            post_title = post.title,
-                            post_url = post.url;
-                        return null !== post.image && (post_image = '\n\t\t\t<figure class="entry-image">\n\t\t\t\t<a href="' + this.pageUrl + post_url + '" class="entry-image--link">\n\t\t\t\t\t<span class="entry-image--bg" style="background-image:url(' + post.image + ')"></span>\n\t\t\t\t</a>\n\t\t\t</figure>', post_no_cover = ""), html = '\n\t\t<div class="col s12 m6 l4 ' + post_no_cover + '">\n\t\t\t<div class="entry entry--small">\n\t\t\t\t' + post_image + '\n\t\t\t\t<h3 class="entry-title"><a href="' + this.pageUrl + post_url + '">' + post_title + "</a></h3>\n\t\t\t</div>\n\t\t</div>"
-                    }
-                }, {
-                    key: "mapacheGet",
-                    value: function() {
-                        var _this2 = this;
-                        fetch(this.urlApi).then(function(res) {
-                            return res.json()
-                        }).then(function(json) {
-                            _this2.mapacheCallback(json.posts)
-                        })
-                    }
-                }]), mapacheRelated
-            }();
-        module.exports = mapacheRelated
     },
     function(module, exports) {
         "use strict";

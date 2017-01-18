@@ -24,8 +24,17 @@ gulp.task('css', function(){
 
 // js
 gulp.task('js', function() {
-    return gulp.src('assets/js/*.js')
+    return gulp.src('assets/js/bundle.js')
         .pipe(concat('main.js'))                        //combine all js to main.js
+        .pipe(gulp.dest('assets/minified'))             //output folder
+        .pipe(rename({suffix: '.min'}))                 //rename the js file that compressed
+        .pipe(uglify())                                 //compress
+        .pipe(gulp.dest('assets/minified'))             //output folder
+});
+
+//minified the custom duoshuo plugin
+gulp.task('custom', function() {
+    return gulp.src('assets/js/embed.js')
         .pipe(gulp.dest('assets/minified'))             //output folder
         .pipe(rename({suffix: '.min'}))                 //rename the js file that compressed
         .pipe(uglify())                                 //compress
@@ -34,11 +43,11 @@ gulp.task('js', function() {
 
 //clean the file before compress
 gulp.task('clean', function(cb) {
-    del(['assets/minified/main.css', 'assets/minified/main.js'], cb)
+    del(['assets/minified/main.css', 'assets/minified/main.js', 'assets/minified/embed.js'], cb)
 });
 
 // default task
-gulp.task('build', ['clean','css', 'js'], function() {
+gulp.task('build', ['clean','css', 'js', 'custom'], function() {
 });
 
 gulp.task('watch',['watchcss','watchjs']);
