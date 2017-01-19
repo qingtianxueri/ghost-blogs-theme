@@ -36,6 +36,7 @@ body {
   background: #E91E63;
   height: 5px;
 }
+
 #ds-thread {
 
   #ds-reset {
@@ -134,4 +135,26 @@ body {
     to {
         transform: rotate(360deg)
     }
+}
+
+.fa.btn-circle-small {
+  border-radius: 50%;
+  height: 32px;
+  line-height: 32px;
+  padding: 0;
+  width: 32px;
+  min-width: 32px;
+  text-align: center;
+}
+
+.bg-wechat {
+  background-color: #4CAF50;
+}
+
+.bg-weibo {
+  background-color: #df4d69;
+}
+
+.bg-tencent-weibo {
+  background-color: #45aaf2;
 }

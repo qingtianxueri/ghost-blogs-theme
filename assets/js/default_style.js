@@ -95,6 +95,7 @@
             $(".share").bind("click", function(e) {
                 e.preventDefault();
                 var share = new _app2["default"]($(this));
+                console.log(share);
                 share.godoShare()
             });
 
@@ -170,9 +171,6 @@
     },
     function(module, exports) {
         "use strict";
-        $(document).on("ready", function() {
-
-        })
     },
     function(module, exports) {
         "use strict";
