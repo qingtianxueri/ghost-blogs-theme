@@ -1,9 +1,11 @@
 var default_style = require('./default_style');
 var app = require('./style');
+var mapacheparameters = require('./parameters');
 var mapacheRelated = require('./relatedItems');
 var mapacheGodoShare = require('./godoShare');
 
-$gd_related = $("#post-related");
-$gd_page_url = window.location.origin;
-mapacheRelated = new mapacheRelated($gd_related, $gd_page_url);
+mapacheparameters = new mapacheparameters();
+mapacheGodoShare = new mapacheGodoShare(mapacheparameters.custom_share);
+mapacheRelated = new mapacheRelated(mapacheparameters.related, mapacheparameters.page_url);
+
 mapacheRelated.display();

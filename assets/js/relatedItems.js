@@ -32,7 +32,7 @@ module.exports = function(elem, pageUrl) {
             }
             $("#post-related-wrap").html(html);
         });
-    },
+    };
 
     this.template = function (post) {
         var html = "",
@@ -50,5 +50,5 @@ module.exports = function(elem, pageUrl) {
             }
             html = '<div class="col s12 m6 l4 ' + post_no_cover + '"><div class="entry entry--small">' + post_image + '<h3 class="entry-title"><a href="' + pageUrl + post_url + '">' + post_title + '</a></h3></div></div>';
         return html;
-    }
+    };
 };

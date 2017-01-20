@@ -47,12 +47,14 @@
 
 	var default_style = __webpack_require__(1);
 	var app = __webpack_require__(2);
-	var mapacheRelated = __webpack_require__(3);
-	var mapacheGodoShare = __webpack_require__(4);
+	var mapacheparameters = __webpack_require__(3);
+	var mapacheRelated = __webpack_require__(4);
+	var mapacheGodoShare = __webpack_require__(5);
 
-	$gd_related = $("#post-related");
-	$gd_page_url = window.location.origin;
-	mapacheRelated = new mapacheRelated($gd_related, $gd_page_url);
+	mapacheparameters = new mapacheparameters();
+	mapacheGodoShare = new mapacheGodoShare(mapacheparameters.custom_share);
+	mapacheRelated = new mapacheRelated(mapacheparameters.related, mapacheparameters.page_url);
+
 	mapacheRelated.display();
 
 
@@ -286,101 +288,6 @@
 	        module.exports = GodoShareCount
 	    },
 	    function(module, exports) {
-	        "use strict";
-
-	        function _classCallCheck(instance, Constructor) {
-	            if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function")
-	        }
-	        var _createClass = function() {
-	                function defineProperties(target, props) {
-	                    for (var i = 0; i < props.length; i++) {
-	                        var descriptor = props[i];
-	                        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor)
-	                    }
-	                }
-	                return function(Constructor, protoProps, staticProps) {
-	                    return protoProps && defineProperties(Constructor.prototype, protoProps), staticProps && defineProperties(Constructor, staticProps), Constructor
-	                }
-	            }(),
-	            GodoShare = function() {
-	                function GodoShare(elem) {
-	                    _classCallCheck(this, GodoShare), this.elem = elem
-	                }
-	                return _createClass(GodoShare, [{
-	                    key: "godoValue",
-	                    value: function(a) {
-	                        var val = this.elem.attr("godo-" + a);
-	                        return void 0 !== val && null !== val && val
-	                    }
-	                }, {
-	                    key: "godoShare",
-	                    value: function() {
-	                        var share_name = this.godoValue("share").toLowerCase(),
-	                            share_social = {
-	                                facebook: {
-	                                    shareUrl: "https://www.facebook.com/sharer/sharer.php",
-	                                    params: {
-	                                        u: this.godoValue("url")
-	                                    }
-	                                },
-	                                twitter: {
-	                                    shareUrl: "https://twitter.com/intent/tweet/",
-	                                    params: {
-	                                        text: this.godoValue("title"),
-	                                        url: this.godoValue("url")
-	                                    }
-	                                },
-	                                reddit: {
-	                                    shareUrl: "https://www.reddit.com/submit",
-	                                    params: {
-	                                        url: this.godoValue("url")
-	                                    }
-	                                },
-	                                pinterest: {
-	                                    shareUrl: "https://www.pinterest.com/pin/create/button/",
-	                                    params: {
-	                                        url: this.godoValue("url"),
-	                                        description: this.godoValue("title")
-	                                    }
-	                                },
-	                                linkedin: {
-	                                    shareUrl: "https://www.linkedin.com/shareArticle",
-	                                    params: {
-	                                        url: this.godoValue("url"),
-	                                        mini: !0
-	                                    }
-	                                },
-	                                pocket: {
-	                                    shareUrl: "https://getpocket.com/save",
-	                                    params: {
-	                                        url: this.godoValue("url")
-	                                    }
-	                                }
-	                            },
-	                            s = share_social[share_name];
-	                        return void 0 !== s && this.godoPopup(s)
-	                    }
-	                }, {
-	                    key: "godoPopup",
-	                    value: function(share) {
-	                        var i, p = share.params || {},
-	                            keys = Object.keys(p),
-	                            str = keys.length > 0 ? "?" : "";
-	                        for (i = 0; i < keys.length; i++) "?" !== str && (str += "&"), p[keys[i]] && (str += keys[i] + "=" + encodeURIComponent(p[keys[i]]));
-	                        if (share.shareUrl += str, share.isLink) window.location.href = share.shareUrl;
-	                        else {
-	                            var popWidth = share.width || 600,
-	                                popHeight = share.height || 480,
-	                                left = window.innerWidth / 2 - popWidth / 2 + window.screenX,
-	                                top = window.innerHeight / 2 - popHeight / 2 + window.screenY,
-	                                popParams = "scrollbars=no, width=" + popWidth + ", height=" + popHeight + ", top=" + top + ", left=" + left,
-	                                newWindow = window.open(share.shareUrl, "", popParams);
-	                            window.focus && newWindow.focus()
-	                        }
-	                    }
-	                }]), GodoShare
-	            }();
-	        module.exports = GodoShare
 	    },
 	    function(module, exports) {
 	        "use strict";
@@ -1616,6 +1523,22 @@
 /***/ function(module, exports) {
 
 	'use strict';
+	var Parameters = function() {
+	        this.related = $("#post-related");
+	        this.page_url = window.location.origin;
+	        this.custom_share = $('.custom-share');
+	        this.getAllParameters = function() {
+	            return this;
+	        };
+	};
+	module.exports = Parameters;
+
+
+/***/ },
+/* 4 */
+/***/ function(module, exports) {
+
+	'use strict';
 	module.exports = function(elem, pageUrl) {
 	    this.elem = elem;
 	    this.postID = elem.attr("mapache-post-id");
@@ -1649,7 +1572,7 @@
 	            }
 	            $("#post-related-wrap").html(html);
 	        });
-	    },
+	    };
 
 	    this.template = function (post) {
 	        var html = "",
@@ -1667,15 +1590,132 @@
 	            }
 	            html = '<div class="col s12 m6 l4 ' + post_no_cover + '"><div class="entry entry--small">' + post_image + '<h3 class="entry-title"><a href="' + pageUrl + post_url + '">' + post_title + '</a></h3></div></div>';
 	        return html;
-	    }
+	    };
 	};
 
 
 /***/ },
-/* 4 */
+/* 5 */
 /***/ function(module, exports) {
 
-	
+	'use strict';
+	module.exports = function(share_elems) {
+	    var _this = this,
+	        share_elems = share_elems;
+
+	    share_elems.bind("click", function(e){
+	        e.preventDefault();
+	        _this.elem = $(this);
+	        _this.godoShare(_this.elem);
+	    });
+
+	    this.godoShare = function(elem) {
+	        var share_name = _this.godoValue("share").toLowerCase(),
+	            share_social = {
+	                'weibo': {
+	                    'shareUrl': 'http://service.weibo.com/share/share.php',
+	                    'params': {
+	                        url: _this.godoValue("url"),
+	                        title: _this.godoValue("title")
+	                    }
+	                },
+	                'wechat': {
+	                    'shareUrl': 'http://qr.liantu.com/api.php',
+	                    'params': {
+	                        text: _this.godoValue("url"),
+	                    }
+	                },
+	                'tencent-weibo': {
+	                    'shareUrl': 'http://share.v.t.qq.com/index.php',
+	                    'params': {
+	                        c: 'share',
+	                        a: 'index',
+	                        url: _this.godoValue("url"),
+	                        title: _this.godoValue("title"),
+	                        appkey: '801cf76d3cfc44ada52ec13114e84a96'
+	                    }
+	                },
+	                'facebook': {
+	                    shareUrl: "https://www.facebook.com/sharer/sharer.php",
+	                    params: {
+	                        u: _this.godoValue("url")
+	                    }
+	                },
+	                'twitter': {
+	                    shareUrl: "https://twitter.com/intent/tweet/",
+	                    params: {
+	                        text: _this.godoValue("title"),
+	                        url: _this.godoValue("url")
+	                    }
+	                },
+	                'reddit': {
+	                    shareUrl: "https://www.reddit.com/submit",
+	                    params: {
+	                        url: _this.godoValue("url")
+	                    }
+	                },
+	                'pinterest': {
+	                    shareUrl: "https://www.pinterest.com/pin/create/button/",
+	                    params: {
+	                        url: _this.godoValue("url"),
+	                        description: _this.godoValue("title")
+	                    }
+	                },
+	                'linkedin': {
+	                    shareUrl: "https://www.linkedin.com/shareArticle",
+	                    params: {
+	                        url: _this.godoValue("url"),
+	                        mini: !0
+	                    }
+	                },
+	                'pocket': {
+	                    shareUrl: "https://getpocket.com/save",
+	                    params: {
+	                        url: _this.godoValue("url")
+	                    }
+	                }
+	            },
+	            share = share_social[share_name];
+
+	        if (void 0 !== share) {
+	            _this.godoPopup(share)
+	        }
+	    };
+
+	    this.godoValue = function(a) {
+	        var val = this.elem.attr("godo-" + a);
+
+	        return void 0 !== val && null !== val && val;
+	    };
+
+	    this.godoPopup = function(share) {
+	        var i,
+	            params = share.params || {},
+	            keys = Object.keys(params),
+	            str = keys.length > 0 ? "?" : "";
+
+	        for (i = 0; i < keys.length; i++) {
+	            str += "&";
+	            if(params[keys[i]]) {
+	                str += keys[i] + "=" + encodeURIComponent(params[keys[i]]);
+	            }
+	        }
+	        share.shareUrl += str;
+
+	        if (share.isLink) {
+	            window.location.href = share.shareUrl;
+	        } else {
+	            var popWidth = share.width || 600,
+	                popHeight = share.height || 480,
+	                left = window.innerWidth / 2 - popWidth / 2 + window.screenX,
+	                top = window.innerHeight / 2 - popHeight / 2 + window.screenY,
+	                popParams = "scrollbars=no, width=" + popWidth + ", height=" + popHeight + ", top=" + top + ", left=" + left,
+	                newWindow = window.open(share.shareUrl, "", popParams);
+	            window.focus && newWindow.focus()
+	        }
+	    };
+	};
+
 
 /***/ }
 /******/ ]);
