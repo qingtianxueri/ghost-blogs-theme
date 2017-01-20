@@ -41,500 +41,25 @@
 /******/ 	return __webpack_require__(0);
 /******/ })
 /************************************************************************/
-/******/ ({
-
-/***/ 0:
+/******/ ([
+/* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var mapacheRelated = __webpack_require__(1);
-	var app = __webpack_require__(242);
-	var share = __webpack_require__(241);
-	var default_style = __webpack_require__(243);
+	var default_style = __webpack_require__(1);
+	var app = __webpack_require__(2);
+	var mapacheparameters = __webpack_require__(3);
+	var mapacheRelated = __webpack_require__(4);
+	var mapacheGodoShare = __webpack_require__(5);
 
-	$gd_related = $("#post-related");
-	$gd_page_url = window.location.origin;
-	mapacheRelated = new mapacheRelated($gd_related, $gd_page_url);
+	mapacheparameters = new mapacheparameters();
+	mapacheGodoShare = new mapacheGodoShare(mapacheparameters.custom_share);
+	mapacheRelated = new mapacheRelated(mapacheparameters.related, mapacheparameters.page_url);
 
-
-/***/ },
-
-/***/ 1:
-/***/ function(module, exports) {
-
-	'use strict';
-	module.exports = function(elem, pageUrl) {
-	    this.elem = elem;
-	    this.postID = elem.attr("mapache-post-id");
-	    this.postTotal = elem.attr("mapache-post-total");
-	    this.postTags = elem.attr("mapache-tag");
-	    this.urlApi = ghost.url.api("posts", {include: "tags"});
-	    this.count = 0;
-	    var _this = this;
-	    var html = "";
-	    fetch(this.urlApi).then(function(res) {
-	        return res.json();
-	    }).then(function(json) {
-	        var results = json.posts;
-	        results.forEach(function(post){
-	            for (var i = 0; i < post.tags.length; i++) {
-	                if (post.tags[i].id == _this.postTags && post.id != _this.postID) {
-	                    if (_this.count < _this.postTotal) {
-	                        html += mapacheTemplate(post);
-	                        _this.count++;
-	                    }
-	                }
-	            }
-	        });
-
-	        if (_this.count == 0) {
-	            _this.elem.css("display", "none");
-	        }
-	        $("#post-related-wrap").html(html);
-	    });
-
-	    function mapacheTemplate(post) {
-	        var html = "",
-	            post_image = "",
-	            post_no_cover = "no-image",
-	            post_title = post.title,
-	            post_url = post.url;
-
-	            if (null !== post.image) {
-	                post_image = '<figure class="entry-image">';
-	                post_image += '<a href="' + pageUrl + post_url + '" class="entry-image--link">';
-	                post_image += '<span class="entry-image--bg" style="background-image:url(' + post.image + ')"></span>';
-	                post_image += '</figure>';
-	                post_no_cover = "";
-	            }
-	            html = '<div class="col s12 m6 l4 ' + post_no_cover + '"><div class="entry entry--small">' + post_image + '<h3 class="entry-title"><a href="' + pageUrl + post_url + '">' + post_title + '</a></h3></div></div>';
-	        return html;
-	    }
-	};
+	mapacheRelated.display();
 
 
 /***/ },
-
-/***/ 241:
-/***/ function(module, exports) {
-
-	/*
-	 * @Author:L.Tap
-	 * @Description: 社会化分享
-	 */
-	;
-	(function($, window, document, undefined) {
-	    //插件初始化
-	    function init(target, options) {
-	        var settings = $.extend({}, $.fn.socialShare.defaults, options);
-			//初始化各个组件
-	        var $msb_main = "<a class='msb_main btn btn-circle-small share i-share bg-feed'></a>";
-	        var $social_group = "<div class='social_group'>"
-			+ "<a target='_blank' class='msb_network_button weixin'>weixin</a>"
-			+ "<a target='_blank' class='msb_network_button sina'>sina</a>"
-			+ "<a target='_blank' class='msb_network_button tQQ'>tQQ</a>"
-			+ "<a target='_blank' class='msb_network_button qZone'>qZone</a>"
-			+ "<a target='_blank' class='msb_network_button douban'>douban</a>"
-			+ "</div>";
-	        $(target).append($msb_main);
-	        $(target).append($social_group);
-	        $(target).addClass("socialShare");
-
-
-			//添加腾讯微博分享事件
-			$(document).on("click",".msb_network_button.tQQ",function(){
-				tQQ(this,settings);
-			});
-			//添加QQ空间分享事件
-			$(document).on("click",".msb_network_button.qZone",function(){
-				qZone(this,settings);
-			});
-			//添加新浪微博分享事件
-			$(document).on("click",".msb_network_button.sina",function(){
-				sinaWeibo(this,settings);
-			});
-			//添加豆瓣分享事件
-			$(document).on("click",".msb_network_button.douban",function(){
-				doubanShare(this,settings);
-			});
-			//添加微信分享事件
-			$(document).on("click",".msb_network_button.weixin",function(){
-				weixinShare(this,settings);
-			});
-	        $(document).on("click",".msb_main",function(){
-				if ($(this).hasClass("disabled")) return;
-	            var e = 100;//动画时间
-	            var t = 50;//延迟时间
-	            var r = $(this).parent().find(".msb_network_button").length;  //分享组件的个数
-	            var i = 40;
-	            var s = e + (r - 1) * t;
-	            var o = 1;
-	            var a = $(this).outerWidth();
-	            var f = $(this).outerHeight();
-	            var c = $(this).parent().find(".msb_network_button:eq(0)").outerWidth();
-	            var h = $(this).parent().find(".msb_network_button:eq(0)").outerHeight();
-	            var p = (a - c) / 2; //起始位置
-	            var d = (f - h) / 2; //起始位置
-	            var v = 0 / 180 * Math.PI;
-	            if (!$(this).hasClass("active")) {
-	                $(this).addClass("disabled").delay(s).queue(function(e) {
-	                    $(this).removeClass("disabled").addClass("active");
-	                    e()
-	                });
-	                $(this).parent().find(".msb_network_button").each(function() {
-	                    var n = p + (p + i * o) * Math.cos(v);  //结束位置
-	                    var r = d + (d + i * o) * Math.sin(v);  //结束位置
-	                    $(this).css({
-	                        display: "block",
-	                        left: p + "px",
-	                        top: d + "px"
-	                    }).stop().delay(t * o).animate({
-	                        left: n + "px",
-	                        top: r + "px"
-	                    }, e);
-	                    o++
-	                })
-	            } else {
-	                o = r;
-	                $(this).addClass("disabled").delay(s).queue(function(e) {
-	                    $(this).removeClass("disabled").removeClass("active");
-	                    e()
-	                });
-	                $(this).parent().find(".msb_network_button").each(function() {
-	                    $(this).stop().delay(t * o).animate({
-	                        left: p,
-	                        top: d
-	                    }, e);
-	                    o--
-	                })
-	            }
-			});
-
-
-
-	    }
-
-		function replaceAPI (api,options) {
-			api = api.replace('{url}', options.url);
-			api = api.replace('{title}', options.title);
-			api = api.replace('{content}', options.content);
-			api = api.replace('{pic}', options.pic);
-
-			return api;
-		}
-
-		function tQQ(target,options){
-		    var options = $.extend({}, $.fn.socialShare.defaults, options);
-
-			window.open(replaceAPI(tqq,options));
-		}
-
-		function qZone(target,options){
-			var options = $.extend({}, $.fn.socialShare.defaults, options);
-
-			window.open(replaceAPI(qzone,options));
-		}
-
-		function sinaWeibo(target,options){
-			var options = $.extend({}, $.fn.socialShare.defaults, options);
-
-			window.open(replaceAPI(sina,options));
-		}
-
-		function doubanShare(target,options){
-			window.open(replaceAPI(douban,$.extend({},$.fn.socialShare.defaults,options)));
-		}
-
-		function weixinShare(target,options){
-			window.open(replaceAPI(weixin,$.extend({},$.fn.socialShare.defaults,options)));
-		}
-
-	    $.fn.socialShare = function(options, param) {
-	        if(typeof options == 'string'){
-			    var method = $.fn.socialShare.methods[options];
-				if(method)
-					return method(this,param);
-			}else
-				init(this,options);
-	    }
-
-
-	    //插件默认参数
-	    $.fn.socialShare.defaults = {
-	        url: window.location.href,
-	        title: document.title,
-	        content: '',
-	        pic: ''
-	    }
-
-		//插件方法
-		$.fn.socialShare.methods = {
-			//初始化方法
-			init:function(jq,options){
-				return jq.each(function(){
-					init(this,options);
-				});
-			},
-			tQQ:function(jq,options){
-				return jq.each(function(){
-					tQQ(this,options);
-				})
-			},
-			qZone:function(jq,options){
-				return jq.each(function(){
-					qZone(this,options);
-				})
-			},
-			sinaWeibo:function(jq,options) {
-				return jq.each(function(){
-					sinaWeibo(this,options);
-				});
-			},
-			doubanShare:function(jq,options) {
-				return jq.each(function(){
-					doubanShare(this,options);
-				});
-			},
-			weixinShare:function(jq,options){
-			    return jq.each(function(){
-					weixinShare(this,options);
-				});
-		    }
-		}
-
-
-		//分享地址
-		var qzone = 'http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url={url}&title={title}&pics={pic}&summary={content}';
-		var sina = 'http://service.weibo.com/share/share.php?url={url}&title={title}&text={content}&pic={pic}&searchPic=false';
-		var tqq = 'http://share.v.t.qq.com/index.php?c=share&a=index&url={url}&title={title}&appkey=801cf76d3cfc44ada52ec13114e84a96';
-		var douban = 'http://www.douban.com/share/service?href={url}&name={title}&text={content}&image={pic}';
-		var weixin = 'http://qr.liantu.com/api.php?text={url}';
-
-
-	})(jQuery, window, document);
-
-
-/***/ },
-
-/***/ 242:
-/***/ function(module, exports) {
-
-	(function ($, undefined) {
-
-	  window.app = window.app || {};
-
-
-	  window.app = {
-	    page: 1,
-
-	    instantClickInitApp: function() {
-	      this.appCoverScroll();
-	      this.articleLearnNext();
-	      this.articleLearnPrev();
-	      this.duoshuoCommentLayer('#post-comments');
-	      this.duoshuoCommentCountForArticle();
-	      this.duoshuocommentCountForArticles();
-	      this.seachSuggest();
-	      this.socialShare();
-	    },
-
-	    documentReadyInitApp: function() {
-	      this.articleLearnNext();
-	      this.articleLearnPrev();
-	      this.duoshuoCommentLayer('#post-comments');
-	      this.duoshuoCommentCountForArticle();
-	      this.duoshuocommentCountForArticles();
-	      this.socialShare();
-	    },
-
-	    duoshuoAddJs: function() {
-	      var ds = document.createElement('script');
-	      ds.type = 'text/javascript';ds.async = true;
-	      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-	      ds.charset = 'UTF-8';
-	      (document.getElementsByTagName('head')[0]
-	       || document.getElementsByTagName('body')[0]).appendChild(ds);
-	    },
-
-	    duoshuoCommentLayer: function(container) {
-	      var thread_key = $('.ds-thread-hidden').attr('data');
-	      var url = $('.ds-thread-hidden').attr('url');
-	      var el = document.createElement('div');
-	      el.setAttribute('data-thread-key', thread_key);
-	      el.setAttribute('data-url', url);
-	      DUOSHUO.EmbedThread(el);
-	      jQuery(container).append(el);
-	    },
-
-	    duoshuoCommentCountForArticle: function(){
-	      var thread_key = $('.duoshuo-comment-count').attr('data');
-	      if (thread_key === undefined) {
-	        return;
-	      }
-	      countUrl = "https://api.duoshuo.com/threads/counts.jsonp?short_name=qingtianxueri&threads=" + thread_key;
-	      $.ajax({
-	          type : "get",
-	          async: true,
-	          url : countUrl,
-	          dataType : "jsonp",
-	          success : function(data){
-	            if (data.code == 0) {
-	              commentCount = data.response[thread_key].comments;
-	              $('.duoshuo-comment-count').text(commentCount + '条评论');
-	            }
-	          }
-	        });
-	    },
-
-	    duoshuocommentCountForArticles: function() {
-	      $('.entry-pagination').each(function(){
-	        var thread_key = $(this).find('.duoshuo-entry-comment-count').attr('data');
-	        var $this = $(this);
-	        countUrl = "https://api.duoshuo.com/threads/counts.jsonp?short_name=qingtianxueri&threads=" + thread_key;
-
-	        $.ajax({
-	          type : "get",
-	          async: true,
-	          url : countUrl,
-	          dataType : "jsonp",
-	          success : function(data){
-	            if (data.code == 0) {
-	              commentCount = data.response[thread_key].comments;
-	              $this.find('.duoshuo-entry-comment-count').text(commentCount + '条评论');
-	            }
-	          }
-	        });
-	      });
-	    },
-
-	    seachSuggest: function() {
-	      var $gd_header = $("#header"),
-	          $gd_page_url = $("body").attr("mapache-page-url"),
-	          $gd_search_input = $(".search-field");
-	      $gd_search_input.focus(function() {
-	        $gd_header.addClass("is-showSearch"), $(".search-popout").removeClass("closed")
-	      });
-	      $gd_search_input.blur(function() {
-	        setTimeout(function() {
-	          $gd_header.removeClass("is-showSearch"), $(".search-popout").addClass("closed")
-	        }, 200)
-	      });
-	      $gd_search_input.keyup(function() {
-	        $(".search-suggest-results").css("display", "block")
-	      });
-	      $gd_search_input.ghostHunter({
-	        results: "#search-results",
-	        zeroResultsInfo: !1,
-	        displaySearchInfo: !1,
-	        result_template: '<a href="' + $gd_page_url + '{{link}}">{{title}}</a>',
-	        onKeyUp: !0
-	      })
-	    },
-
-	    appCoverScroll: function() {
-	      $(window).scroll(function() {
-	        var scrollTop = $(window).scrollTop(),
-	          gd_cover_height = $("#cover").height() - $("#header").height(),
-	          gd_cover_wrap = (gd_cover_height - scrollTop) / gd_cover_height;
-	        scrollTop >= gd_cover_height ? $("#header").addClass("toolbar-shadow").removeAttr("style") : $("#header").removeClass("toolbar-shadow").css({
-	            background: "transparent"
-	        });
-	        $(".cover-wrap").css("opacity", gd_cover_wrap);
-	      });
-	    },
-
-	    articleLearnNext: function() {
-	      appSelf = this,
-	      $pagination = $("#pagination"),
-	      pageTotal = $pagination.attr("mapache-page"),
-	      $win = $(window);
-
-	      if (pageTotal > appSelf.page) {
-	        $(".pagination").css("display", "block");
-	      }
-
-	      $pagination.on("click", function(e) {
-	          $("#pagination").attr('disabled', 'disabled');
-	          e.preventDefault(), $pagination.addClass("infinite-scroll");
-	          if (appSelf.page <= pageTotal) {
-	            appSelf.page++;
-	            appSelf.getPostPrivate('next');
-	          }
-	      });
-	    },
-
-	    articleLearnPrev: function() {
-	      appSelf = this,
-	      $pagination = $("#prev-pagination"),
-	      pageTotal = $pagination.attr("mapache-page"),
-	      $win = $(window);
-	      $pagination.on("click", function(e) {
-	          $("#prev-pagination").attr('disabled', 'disabled');
-	          e.preventDefault(), $pagination.addClass("infinite-scroll");
-	          if (appSelf.page <= pageTotal) {
-	            appSelf.page--;
-	            appSelf.getPostPrivate('prev');
-	          }
-	      });
-	    },
-
-	    getPostPrivate: function(key) {
-	      pageTotal = $pagination.attr("mapache-page"),
-	      appSelf = this,
-	      gd_cover_height = $("#cover").height() - $("#header").height(),
-	      // urlProtocol = window.location.protocol,
-	      urlPage =  window.location.href;
-	      if (key == "next") {
-	        $("#pagination").addClass("loanding").html("下一页");
-	      }
-
-	      if (key == "prev") {
-	        $("#prev-pagination").addClass("loanding").html("上一页");
-	      }
-	      // console.log(urlProtocol+ '//' + urlPage + "/page/" + appSelf.page);
-	      fetch(urlPage + "/page/" + appSelf.page).then(function(res) {
-	            return res.text()
-	        }).then(function(body) {
-	            setTimeout(function() {
-	              var entries = $(".entry-pagination", body);
-	              $(".feed-entry-wrapper").html(entries);
-
-	              if (appSelf.page < pageTotal) {
-	                $("#pagination").removeAttr('disabled');
-	              }
-
-	              if (appSelf.page > 1) {
-	                $('#prev-pagination').removeAttr('disabled');
-	              }
-
-	               if (key == "next") {
-	                $("#pagination").removeClass("loanding").html("下一页");
-	               }
-
-	               if (key == "prev") {
-	                $("#prev-pagination").removeClass("loanding").html("上一页");
-	               }
-	               $("html, body").animate({scrollTop: gd_cover_height}, 500)
-	            }, 1e3)
-	        }).catch(function(e) {
-	            console.log("Oops, error");
-	          });
-	        console.log(appSelf.page);
-	    },
-
-	    socialShare: function() {
-	      $("#socialShare").socialShare({
-	        content: 'test content',
-	        url: window.location.href,
-	        titile: document.title,
-	      });
-	    },
-	  };
-	})(jQuery);
-
-
-/***/ },
-
-/***/ 243:
+/* 1 */
 /***/ function(module, exports) {
 
 	(function ($, undefined) {
@@ -634,6 +159,7 @@
 	            $(".share").bind("click", function(e) {
 	                e.preventDefault();
 	                var share = new _app2["default"]($(this));
+	                console.log(share);
 	                share.godoShare()
 	            });
 
@@ -709,9 +235,6 @@
 	    },
 	    function(module, exports) {
 	        "use strict";
-	        $(document).on("ready", function() {
-
-	        })
 	    },
 	    function(module, exports) {
 	        "use strict";
@@ -765,101 +288,6 @@
 	        module.exports = GodoShareCount
 	    },
 	    function(module, exports) {
-	        "use strict";
-
-	        function _classCallCheck(instance, Constructor) {
-	            if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function")
-	        }
-	        var _createClass = function() {
-	                function defineProperties(target, props) {
-	                    for (var i = 0; i < props.length; i++) {
-	                        var descriptor = props[i];
-	                        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor)
-	                    }
-	                }
-	                return function(Constructor, protoProps, staticProps) {
-	                    return protoProps && defineProperties(Constructor.prototype, protoProps), staticProps && defineProperties(Constructor, staticProps), Constructor
-	                }
-	            }(),
-	            GodoShare = function() {
-	                function GodoShare(elem) {
-	                    _classCallCheck(this, GodoShare), this.elem = elem
-	                }
-	                return _createClass(GodoShare, [{
-	                    key: "godoValue",
-	                    value: function(a) {
-	                        var val = this.elem.attr("godo-" + a);
-	                        return void 0 !== val && null !== val && val
-	                    }
-	                }, {
-	                    key: "godoShare",
-	                    value: function() {
-	                        var share_name = this.godoValue("share").toLowerCase(),
-	                            share_social = {
-	                                facebook: {
-	                                    shareUrl: "https://www.facebook.com/sharer/sharer.php",
-	                                    params: {
-	                                        u: this.godoValue("url")
-	                                    }
-	                                },
-	                                twitter: {
-	                                    shareUrl: "https://twitter.com/intent/tweet/",
-	                                    params: {
-	                                        text: this.godoValue("title"),
-	                                        url: this.godoValue("url")
-	                                    }
-	                                },
-	                                reddit: {
-	                                    shareUrl: "https://www.reddit.com/submit",
-	                                    params: {
-	                                        url: this.godoValue("url")
-	                                    }
-	                                },
-	                                pinterest: {
-	                                    shareUrl: "https://www.pinterest.com/pin/create/button/",
-	                                    params: {
-	                                        url: this.godoValue("url"),
-	                                        description: this.godoValue("title")
-	                                    }
-	                                },
-	                                linkedin: {
-	                                    shareUrl: "https://www.linkedin.com/shareArticle",
-	                                    params: {
-	                                        url: this.godoValue("url"),
-	                                        mini: !0
-	                                    }
-	                                },
-	                                pocket: {
-	                                    shareUrl: "https://getpocket.com/save",
-	                                    params: {
-	                                        url: this.godoValue("url")
-	                                    }
-	                                }
-	                            },
-	                            s = share_social[share_name];
-	                        return void 0 !== s && this.godoPopup(s)
-	                    }
-	                }, {
-	                    key: "godoPopup",
-	                    value: function(share) {
-	                        var i, p = share.params || {},
-	                            keys = Object.keys(p),
-	                            str = keys.length > 0 ? "?" : "";
-	                        for (i = 0; i < keys.length; i++) "?" !== str && (str += "&"), p[keys[i]] && (str += keys[i] + "=" + encodeURIComponent(p[keys[i]]));
-	                        if (share.shareUrl += str, share.isLink) window.location.href = share.shareUrl;
-	                        else {
-	                            var popWidth = share.width || 600,
-	                                popHeight = share.height || 480,
-	                                left = window.innerWidth / 2 - popWidth / 2 + window.screenX,
-	                                top = window.innerHeight / 2 - popHeight / 2 + window.screenY,
-	                                popParams = "scrollbars=no, width=" + popWidth + ", height=" + popHeight + ", top=" + top + ", left=" + left,
-	                                newWindow = window.open(share.shareUrl, "", popParams);
-	                            window.focus && newWindow.focus()
-	                        }
-	                    }
-	                }]), GodoShare
-	            }();
-	        module.exports = GodoShare
 	    },
 	    function(module, exports) {
 	        "use strict";
@@ -1882,6 +1310,412 @@
 	})(jQuery);
 
 
-/***/ }
+/***/ },
+/* 2 */
+/***/ function(module, exports) {
 
-/******/ });
+	(function ($, undefined) {
+
+	  window.app = window.app || {};
+
+
+	  window.app = {
+	    page: 1,
+
+	    instantClickInitApp: function() {
+	      this.appCoverScroll();
+	      this.articleLearnNext();
+	      this.articleLearnPrev();
+	      this.duoshuoCommentLayer('#post-comments');
+	      this.duoshuoCommentCountForArticle();
+	      this.duoshuocommentCountForArticles();
+	      this.seachSuggest();
+	    },
+
+	    documentReadyInitApp: function() {
+	      this.articleLearnNext();
+	      this.articleLearnPrev();
+	      this.duoshuoCommentLayer('#post-comments');
+	      this.duoshuoCommentCountForArticle();
+	      this.duoshuocommentCountForArticles();
+	    },
+
+	    duoshuoAddJs: function() {
+	      var ds = document.createElement('script');
+	      ds.type = 'text/javascript';ds.async = true;
+	      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+	      ds.charset = 'UTF-8';
+	      (document.getElementsByTagName('head')[0]
+	       || document.getElementsByTagName('body')[0]).appendChild(ds);
+	    },
+
+	    duoshuoCommentLayer: function(container) {
+	      var thread_key = $('.ds-thread-hidden').attr('data');
+	      var url = $('.ds-thread-hidden').attr('url');
+	      var el = document.createElement('div');
+	      el.setAttribute('data-thread-key', thread_key);
+	      el.setAttribute('data-url', url);
+	      DUOSHUO.EmbedThread(el);
+	      jQuery(container).append(el);
+	    },
+
+	    duoshuoCommentCountForArticle: function(){
+	      var thread_key = $('.duoshuo-comment-count').attr('data');
+	      if (thread_key === undefined) {
+	        return;
+	      }
+	      countUrl = "https://api.duoshuo.com/threads/counts.jsonp?short_name=qingtianxueri&threads=" + thread_key;
+	      $.ajax({
+	          type : "get",
+	          async: true,
+	          url : countUrl,
+	          dataType : "jsonp",
+	          success : function(data){
+	            if (data.code == 0) {
+	              commentCount = data.response[thread_key].comments;
+	              $('.duoshuo-comment-count').text(commentCount + '条评论');
+	            }
+	          }
+	        });
+	    },
+
+	    duoshuocommentCountForArticles: function() {
+	      $('.entry-pagination').each(function(){
+	        var thread_key = $(this).find('.duoshuo-entry-comment-count').attr('data');
+	        var $this = $(this);
+	        countUrl = "https://api.duoshuo.com/threads/counts.jsonp?short_name=qingtianxueri&threads=" + thread_key;
+
+	        $.ajax({
+	          type : "get",
+	          async: true,
+	          url : countUrl,
+	          dataType : "jsonp",
+	          success : function(data){
+	            if (data.code == 0) {
+	              commentCount = data.response[thread_key].comments;
+	              $this.find('.duoshuo-entry-comment-count').text(commentCount + '条评论');
+	            }
+	          }
+	        });
+	      });
+	    },
+
+	    seachSuggest: function() {
+	      var $gd_header = $("#header"),
+	          $gd_page_url = $("body").attr("mapache-page-url"),
+	          $gd_search_input = $(".search-field");
+	      $gd_search_input.focus(function() {
+	        $gd_header.addClass("is-showSearch"), $(".search-popout").removeClass("closed")
+	      });
+	      $gd_search_input.blur(function() {
+	        setTimeout(function() {
+	          $gd_header.removeClass("is-showSearch"), $(".search-popout").addClass("closed")
+	        }, 200)
+	      });
+	      $gd_search_input.keyup(function() {
+	        $(".search-suggest-results").css("display", "block")
+	      });
+	      $gd_search_input.ghostHunter({
+	        results: "#search-results",
+	        zeroResultsInfo: !1,
+	        displaySearchInfo: !1,
+	        result_template: '<a href="' + $gd_page_url + '{{link}}">{{title}}</a>',
+	        onKeyUp: !0
+	      })
+	    },
+
+	    appCoverScroll: function() {
+	      $(window).scroll(function() {
+	        var scrollTop = $(window).scrollTop(),
+	          gd_cover_height = $("#cover").height() - $("#header").height(),
+	          gd_cover_wrap = (gd_cover_height - scrollTop) / gd_cover_height;
+	        scrollTop >= gd_cover_height ? $("#header").addClass("toolbar-shadow").removeAttr("style") : $("#header").removeClass("toolbar-shadow").css({
+	            background: "transparent"
+	        });
+	        $(".cover-wrap").css("opacity", gd_cover_wrap);
+	      });
+	    },
+
+	    articleLearnNext: function() {
+	      appSelf = this,
+	      $pagination = $("#pagination"),
+	      pageTotal = $pagination.attr("mapache-page"),
+	      $win = $(window);
+
+	      if (pageTotal > appSelf.page) {
+	        $(".pagination").css("display", "block");
+	      }
+
+	      $pagination.on("click", function(e) {
+	          $("#pagination").attr('disabled', 'disabled');
+	          e.preventDefault(), $pagination.addClass("infinite-scroll");
+	          if (appSelf.page <= pageTotal) {
+	            appSelf.page++;
+	            appSelf.getPostPrivate('next');
+	          }
+	      });
+	    },
+
+	    articleLearnPrev: function() {
+	      appSelf = this,
+	      $pagination = $("#prev-pagination"),
+	      pageTotal = $pagination.attr("mapache-page"),
+	      $win = $(window);
+	      $pagination.on("click", function(e) {
+	          $("#prev-pagination").attr('disabled', 'disabled');
+	          e.preventDefault(), $pagination.addClass("infinite-scroll");
+	          if (appSelf.page <= pageTotal) {
+	            appSelf.page--;
+	            appSelf.getPostPrivate('prev');
+	          }
+	      });
+	    },
+
+	    getPostPrivate: function(key) {
+	      pageTotal = $pagination.attr("mapache-page"),
+	      appSelf = this,
+	      gd_cover_height = $("#cover").height() - $("#header").height(),
+	      // urlProtocol = window.location.protocol,
+	      urlPage =  window.location.href;
+	      if (key == "next") {
+	        $("#pagination").addClass("loanding").html("下一页");
+	      }
+
+	      if (key == "prev") {
+	        $("#prev-pagination").addClass("loanding").html("上一页");
+	      }
+	      // console.log(urlProtocol+ '//' + urlPage + "/page/" + appSelf.page);
+	      fetch(urlPage + "/page/" + appSelf.page).then(function(res) {
+	            return res.text()
+	        }).then(function(body) {
+	            setTimeout(function() {
+	              var entries = $(".entry-pagination", body);
+	              $(".feed-entry-wrapper").html(entries);
+
+	              if (appSelf.page < pageTotal) {
+	                $("#pagination").removeAttr('disabled');
+	              }
+
+	              if (appSelf.page > 1) {
+	                $('#prev-pagination').removeAttr('disabled');
+	              }
+
+	               if (key == "next") {
+	                $("#pagination").removeClass("loanding").html("下一页");
+	               }
+
+	               if (key == "prev") {
+	                $("#prev-pagination").removeClass("loanding").html("上一页");
+	               }
+	               $("html, body").animate({scrollTop: gd_cover_height}, 500)
+	            }, 1e3)
+	        }).catch(function(e) {
+	            console.log("Oops, error");
+	          });
+	        console.log(appSelf.page);
+	    },
+	  };
+	})(jQuery);
+
+
+/***/ },
+/* 3 */
+/***/ function(module, exports) {
+
+	'use strict';
+	var Parameters = function() {
+	        this.related = $("#post-related");
+	        this.page_url = window.location.origin;
+	        this.custom_share = $('.custom-share');
+	        this.getAllParameters = function() {
+	            return this;
+	        };
+	};
+	module.exports = Parameters;
+
+
+/***/ },
+/* 4 */
+/***/ function(module, exports) {
+
+	'use strict';
+	module.exports = function(elem, pageUrl) {
+	    this.elem = elem;
+	    this.postID = elem.attr("mapache-post-id");
+	    this.postTotal = elem.attr("mapache-post-total");
+	    this.postTags = elem.attr("mapache-tag");
+	    this.urlApi = ghost.url.api("posts", {include: "tags"});
+	    this.count = 0;
+	    var _this = this;
+	    var html = "";
+
+	    this.display = function() {
+	        fetch(_this.urlApi).then(function(res) {
+	            return res.json();
+
+	        }).then(function(json) {
+	            var results = json.posts;
+
+	            results.forEach(function(post){
+	                for (var i = 0; i < post.tags.length; i++) {
+	                    if (post.tags[i].id == _this.postTags && post.id != _this.postID) {
+	                        if (_this.count < _this.postTotal) {
+	                            html += _this.template(post);
+	                            _this.count++;
+	                        }
+	                    }
+	                }
+	            });
+
+	            if (_this.count == 0) {
+	                _this.elem.css("display", "none");
+	            }
+	            $("#post-related-wrap").html(html);
+	        });
+	    };
+
+	    this.template = function (post) {
+	        var html = "",
+	            post_image = "",
+	            post_no_cover = "no-image",
+	            post_title = post.title,
+	            post_url = post.url;
+
+	            if (null !== post.image) {
+	                post_image = '<figure class="entry-image">';
+	                post_image += '<a href="' + pageUrl + post_url + '" class="entry-image--link">';
+	                post_image += '<span class="entry-image--bg" style="background-image:url(' + post.image + ')"></span>';
+	                post_image += '</figure>';
+	                post_no_cover = "";
+	            }
+	            html = '<div class="col s12 m6 l4 ' + post_no_cover + '"><div class="entry entry--small">' + post_image + '<h3 class="entry-title"><a href="' + pageUrl + post_url + '">' + post_title + '</a></h3></div></div>';
+	        return html;
+	    };
+	};
+
+
+/***/ },
+/* 5 */
+/***/ function(module, exports) {
+
+	'use strict';
+	module.exports = function(share_elems) {
+	    var _this = this,
+	        share_elems = share_elems;
+
+	    share_elems.bind("click", function(e){
+	        e.preventDefault();
+	        _this.elem = $(this);
+	        _this.godoShare(_this.elem);
+	    });
+
+	    this.godoShare = function(elem) {
+	        var share_name = _this.godoValue("share").toLowerCase(),
+	            share_social = {
+	                'weibo': {
+	                    'shareUrl': 'http://service.weibo.com/share/share.php',
+	                    'params': {
+	                        url: _this.godoValue("url"),
+	                        title: _this.godoValue("title")
+	                    }
+	                },
+	                'wechat': {
+	                    'shareUrl': 'http://qr.liantu.com/api.php',
+	                    'params': {
+	                        text: _this.godoValue("url"),
+	                    }
+	                },
+	                'tencent-weibo': {
+	                    'shareUrl': 'http://share.v.t.qq.com/index.php',
+	                    'params': {
+	                        c: 'share',
+	                        a: 'index',
+	                        url: _this.godoValue("url"),
+	                        title: _this.godoValue("title"),
+	                        appkey: '801cf76d3cfc44ada52ec13114e84a96'
+	                    }
+	                },
+	                'facebook': {
+	                    shareUrl: "https://www.facebook.com/sharer/sharer.php",
+	                    params: {
+	                        u: _this.godoValue("url")
+	                    }
+	                },
+	                'twitter': {
+	                    shareUrl: "https://twitter.com/intent/tweet/",
+	                    params: {
+	                        text: _this.godoValue("title"),
+	                        url: _this.godoValue("url")
+	                    }
+	                },
+	                'reddit': {
+	                    shareUrl: "https://www.reddit.com/submit",
+	                    params: {
+	                        url: _this.godoValue("url")
+	                    }
+	                },
+	                'pinterest': {
+	                    shareUrl: "https://www.pinterest.com/pin/create/button/",
+	                    params: {
+	                        url: _this.godoValue("url"),
+	                        description: _this.godoValue("title")
+	                    }
+	                },
+	                'linkedin': {
+	                    shareUrl: "https://www.linkedin.com/shareArticle",
+	                    params: {
+	                        url: _this.godoValue("url"),
+	                        mini: !0
+	                    }
+	                },
+	                'pocket': {
+	                    shareUrl: "https://getpocket.com/save",
+	                    params: {
+	                        url: _this.godoValue("url")
+	                    }
+	                }
+	            },
+	            share = share_social[share_name];
+
+	        if (void 0 !== share) {
+	            _this.godoPopup(share)
+	        }
+	    };
+
+	    this.godoValue = function(a) {
+	        var val = this.elem.attr("godo-" + a);
+
+	        return void 0 !== val && null !== val && val;
+	    };
+
+	    this.godoPopup = function(share) {
+	        var i,
+	            params = share.params || {},
+	            keys = Object.keys(params),
+	            str = keys.length > 0 ? "?" : "";
+
+	        for (i = 0; i < keys.length; i++) {
+	            str += "&";
+	            if(params[keys[i]]) {
+	                str += keys[i] + "=" + encodeURIComponent(params[keys[i]]);
+	            }
+	        }
+	        share.shareUrl += str;
+
+	        if (share.isLink) {
+	            window.location.href = share.shareUrl;
+	        } else {
+	            var popWidth = share.width || 600,
+	                popHeight = share.height || 480,
+	                left = window.innerWidth / 2 - popWidth / 2 + window.screenX,
+	                top = window.innerHeight / 2 - popHeight / 2 + window.screenY,
+	                popParams = "scrollbars=no, width=" + popWidth + ", height=" + popHeight + ", top=" + top + ", left=" + left,
+	                newWindow = window.open(share.shareUrl, "", popParams);
+	            window.focus && newWindow.focus()
+	        }
+	    };
+	};
+
+
+/***/ }
+/******/ ]);

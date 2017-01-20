@@ -14,7 +14,6 @@
       this.duoshuoCommentCountForArticle();
       this.duoshuocommentCountForArticles();
       this.seachSuggest();
-      this.socialShare();
     },
 
     documentReadyInitApp: function() {
@@ -23,7 +22,6 @@
       this.duoshuoCommentLayer('#post-comments');
       this.duoshuoCommentCountForArticle();
       this.duoshuocommentCountForArticles();
-      this.socialShare();
     },
 
     duoshuoAddJs: function() {
@@ -199,14 +197,6 @@
             console.log("Oops, error");
           });
         console.log(appSelf.page);
-    },
-
-    socialShare: function() {
-      $("#socialShare").socialShare({
-        content: 'test content',
-        url: window.location.href,
-        titile: document.title,
-      });
     },
   };
 })(jQuery);

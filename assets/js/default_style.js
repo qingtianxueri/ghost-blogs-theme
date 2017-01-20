@@ -95,6 +95,7 @@
             $(".share").bind("click", function(e) {
                 e.preventDefault();
                 var share = new _app2["default"]($(this));
+                console.log(share);
                 share.godoShare()
             });
 
@@ -170,9 +171,6 @@
     },
     function(module, exports) {
         "use strict";
-        $(document).on("ready", function() {
-
-        })
     },
     function(module, exports) {
         "use strict";
@@ -226,101 +224,6 @@
         module.exports = GodoShareCount
     },
     function(module, exports) {
-        "use strict";
-
-        function _classCallCheck(instance, Constructor) {
-            if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function")
-        }
-        var _createClass = function() {
-                function defineProperties(target, props) {
-                    for (var i = 0; i < props.length; i++) {
-                        var descriptor = props[i];
-                        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor)
-                    }
-                }
-                return function(Constructor, protoProps, staticProps) {
-                    return protoProps && defineProperties(Constructor.prototype, protoProps), staticProps && defineProperties(Constructor, staticProps), Constructor
-                }
-            }(),
-            GodoShare = function() {
-                function GodoShare(elem) {
-                    _classCallCheck(this, GodoShare), this.elem = elem
-                }
-                return _createClass(GodoShare, [{
-                    key: "godoValue",
-                    value: function(a) {
-                        var val = this.elem.attr("godo-" + a);
-                        return void 0 !== val && null !== val && val
-                    }
-                }, {
-                    key: "godoShare",
-                    value: function() {
-                        var share_name = this.godoValue("share").toLowerCase(),
-                            share_social = {
-                                facebook: {
-                                    shareUrl: "https://www.facebook.com/sharer/sharer.php",
-                                    params: {
-                                        u: this.godoValue("url")
-                                    }
-                                },
-                                twitter: {
-                                    shareUrl: "https://twitter.com/intent/tweet/",
-                                    params: {
-                                        text: this.godoValue("title"),
-                                        url: this.godoValue("url")
-                                    }
-                                },
-                                reddit: {
-                                    shareUrl: "https://www.reddit.com/submit",
-                                    params: {
-                                        url: this.godoValue("url")
-                                    }
-                                },
-                                pinterest: {
-                                    shareUrl: "https://www.pinterest.com/pin/create/button/",
-                                    params: {
-                                        url: this.godoValue("url"),
-                                        description: this.godoValue("title")
-                                    }
-                                },
-                                linkedin: {
-                                    shareUrl: "https://www.linkedin.com/shareArticle",
-                                    params: {
-                                        url: this.godoValue("url"),
-                                        mini: !0
-                                    }
-                                },
-                                pocket: {
-                                    shareUrl: "https://getpocket.com/save",
-                                    params: {
-                                        url: this.godoValue("url")
-                                    }
-                                }
-                            },
-                            s = share_social[share_name];
-                        return void 0 !== s && this.godoPopup(s)
-                    }
-                }, {
-                    key: "godoPopup",
-                    value: function(share) {
-                        var i, p = share.params || {},
-                            keys = Object.keys(p),
-                            str = keys.length > 0 ? "?" : "";
-                        for (i = 0; i < keys.length; i++) "?" !== str && (str += "&"), p[keys[i]] && (str += keys[i] + "=" + encodeURIComponent(p[keys[i]]));
-                        if (share.shareUrl += str, share.isLink) window.location.href = share.shareUrl;
-                        else {
-                            var popWidth = share.width || 600,
-                                popHeight = share.height || 480,
-                                left = window.innerWidth / 2 - popWidth / 2 + window.screenX,
-                                top = window.innerHeight / 2 - popHeight / 2 + window.screenY,
-                                popParams = "scrollbars=no, width=" + popWidth + ", height=" + popHeight + ", top=" + top + ", left=" + left,
-                                newWindow = window.open(share.shareUrl, "", popParams);
-                            window.focus && newWindow.focus()
-                        }
-                    }
-                }]), GodoShare
-            }();
-        module.exports = GodoShare
     },
     function(module, exports) {
         "use strict";

@@ -8,28 +8,33 @@ module.exports = function(elem, pageUrl) {
     this.count = 0;
     var _this = this;
     var html = "";
-    fetch(this.urlApi).then(function(res) {
-        return res.json();
-    }).then(function(json) {
-        var results = json.posts;
-        results.forEach(function(post){
-            for (var i = 0; i < post.tags.length; i++) {
-                if (post.tags[i].id == _this.postTags && post.id != _this.postID) {
-                    if (_this.count < _this.postTotal) {
-                        html += mapacheTemplate(post);
-                        _this.count++;
+
+    this.display = function() {
+        fetch(_this.urlApi).then(function(res) {
+            return res.json();
+
+        }).then(function(json) {
+            var results = json.posts;
+
+            results.forEach(function(post){
+                for (var i = 0; i < post.tags.length; i++) {
+                    if (post.tags[i].id == _this.postTags && post.id != _this.postID) {
+                        if (_this.count < _this.postTotal) {
+                            html += _this.template(post);
+                            _this.count++;
+                        }
                     }
                 }
+            });
+
+            if (_this.count == 0) {
+                _this.elem.css("display", "none");
             }
+            $("#post-related-wrap").html(html);
         });
+    };
 
-        if (_this.count == 0) {
-            _this.elem.css("display", "none");
-        }
-        $("#post-related-wrap").html(html);
-    });
-
-    function mapacheTemplate(post) {
+    this.template = function (post) {
         var html = "",
             post_image = "",
             post_no_cover = "no-image",
@@ -45,5 +50,5 @@ module.exports = function(elem, pageUrl) {
             }
             html = '<div class="col s12 m6 l4 ' + post_no_cover + '"><div class="entry entry--small">' + post_image + '<h3 class="entry-title"><a href="' + pageUrl + post_url + '">' + post_title + '</a></h3></div></div>';
         return html;
-    }
+    };
 };
