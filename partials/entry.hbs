@@ -18,10 +18,8 @@
 			<div class="entry-byline">
 				<i class="i-chat"></i>
 				<a class="entry-comments" href="{{url}}#post-comments">
-					{{!-- Disqus Comments Count --}}
-					<span class="duoshuo-entry-comment-count mapache-duoshuo" data="{{title}}">0</span>
-					{{!-- Facebook Comments Counts --}}
-					<span class="fb-comments-count mapache-facebook" data-href="{{url absolute="true"}}">0</span>
+					{{!-- ChangeYan Comments Count --}}
+					<span id = "sourceId::{{slug}}" class = "cy_cmt_count" ></span>
 					<span>Comments</span>
 				</a>
 				{{#author}}— by <strong><a class="entry-author" href="{{url}}">{{name}}</a></strong> —{{/author}}

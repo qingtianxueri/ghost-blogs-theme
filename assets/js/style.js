@@ -10,78 +10,56 @@
       this.appCoverScroll();
       this.articleLearnNext();
       this.articleLearnPrev();
-      this.duoshuoCommentLayer('#post-comments');
-      this.duoshuoCommentCountForArticle();
-      this.duoshuocommentCountForArticles();
       this.seachSuggest();
+      if ($('#SOHUCS').length > 0) {
+        this.loadChangYanCommentsLayer();
+      }
     },
 
     documentReadyInitApp: function() {
       this.articleLearnNext();
       this.articleLearnPrev();
-      this.duoshuoCommentLayer('#post-comments');
-      this.duoshuoCommentCountForArticle();
-      this.duoshuocommentCountForArticles();
-    },
-
-    duoshuoAddJs: function() {
-      var ds = document.createElement('script');
-      ds.type = 'text/javascript';ds.async = true;
-      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-      ds.charset = 'UTF-8';
-      (document.getElementsByTagName('head')[0]
-       || document.getElementsByTagName('body')[0]).appendChild(ds);
-    },
-
-    duoshuoCommentLayer: function(container) {
-      var thread_key = $('.ds-thread-hidden').attr('data');
-      var url = $('.ds-thread-hidden').attr('url');
-      var el = document.createElement('div');
-      el.setAttribute('data-thread-key', thread_key);
-      el.setAttribute('data-url', url);
-      DUOSHUO.EmbedThread(el);
-      jQuery(container).append(el);
-    },
-
-    duoshuoCommentCountForArticle: function(){
-      var thread_key = $('.duoshuo-comment-count').attr('data');
-      if (thread_key === undefined) {
-        return;
+      if ($('#SOHUCS').length > 0) {
+        this.loadChangYanCommentsLayer();
       }
-      countUrl = "https://api.duoshuo.com/threads/counts.jsonp?short_name=qingtianxueri&threads=" + thread_key;
-      $.ajax({
-          type : "get",
-          async: true,
-          url : countUrl,
-          dataType : "jsonp",
-          success : function(data){
-            if (data.code == 0) {
-              commentCount = data.response[thread_key].comments;
-              $('.duoshuo-comment-count').text(commentCount + '条评论');
-            }
-          }
-        });
     },
 
-    duoshuocommentCountForArticles: function() {
-      $('.entry-pagination').each(function(){
-        var thread_key = $(this).find('.duoshuo-entry-comment-count').attr('data');
-        var $this = $(this);
-        countUrl = "https://api.duoshuo.com/threads/counts.jsonp?short_name=qingtianxueri&threads=" + thread_key;
+    loadChangYanCommentsLayer: function() {
+      //from Chang Yan common code
+      var appid = 'cysX0NIPe';
+      var conf = 'prod_559135105c2bb397082218205f07db8d';
+      var width = window.innerWidth || document.documentElement.clientWidth;
 
-        $.ajax({
-          type : "get",
-          async: true,
-          url : countUrl,
-          dataType : "jsonp",
-          success : function(data){
-            if (data.code == 0) {
-              commentCount = data.response[thread_key].comments;
-              $this.find('.duoshuo-entry-comment-count').text(commentCount + '条评论');
+      if (width < 960) {
+        window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>');
+      } else {
+        var loadJs=function(d,a){
+          var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;
+          var b=document.createElement("script");
+          b.setAttribute("type","text/javascript");
+          b.setAttribute("charset","UTF-8");
+          b.setAttribute("src",d);
+
+          if(typeof a==="function"){
+            if(window.attachEvent){
+              b.onreadystatechange=function(){
+                var e=b.readyState;
+                if(e==="loaded"||e==="complete"){
+                  b.onreadystatechange=null;
+                  a();
+                }
+              }
+            }else{
+              b.onload=a
             }
           }
+          c.appendChild(b)
+        };
+        loadJs("https://changyan.sohu.com/upload/changyan.js",
+        function(){
+          window.changyan.api.config({appid:appid,conf:conf})
         });
-      });
+      }
     },
 
     seachSuggest: function() {
