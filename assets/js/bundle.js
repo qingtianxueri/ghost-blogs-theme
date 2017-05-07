@@ -43,7 +43,7 @@
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ function(module, exports, __webpack_require__) {
 
 	var default_style = __webpack_require__(1);
 	var app = __webpack_require__(2);
@@ -58,9 +58,9 @@
 	mapacheRelated.display();
 
 
-/***/ }),
+/***/ },
 /* 1 */
-/***/ (function(module, exports) {
+/***/ function(module, exports) {
 
 	(function ($, undefined) {
 
@@ -1310,9 +1310,9 @@
 	})(jQuery);
 
 
-/***/ }),
+/***/ },
 /* 2 */
-/***/ (function(module, exports) {
+/***/ function(module, exports) {
 
 	(function ($, undefined) {
 
@@ -1496,9 +1496,9 @@
 	})(jQuery);
 
 
-/***/ }),
+/***/ },
 /* 3 */
-/***/ (function(module, exports) {
+/***/ function(module, exports) {
 
 	'use strict';
 	var Parameters = function() {
@@ -1512,9 +1512,9 @@
 	module.exports = Parameters;
 
 
-/***/ }),
+/***/ },
 /* 4 */
-/***/ (function(module, exports) {
+/***/ function(module, exports) {
 
 	'use strict';
 	module.exports = function(elem, pageUrl) {
@@ -1572,9 +1572,9 @@
 	};
 
 
-/***/ }),
+/***/ },
 /* 5 */
-/***/ (function(module, exports) {
+/***/ function(module, exports) {
 
 	'use strict';
 	module.exports = function(share_elems) {
@@ -1695,5 +1695,5 @@
 	};
 
 
-/***/ })
+/***/ }
 /******/ ]);

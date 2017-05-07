@@ -39,33 +39,27 @@
 	{{ghost_foot}}
 
 	<a href="#" class="scroll_top u-h-b-lg i-arrow_upward"></a>
-
 	{{!-- The main JavaScript file for Mapache --}}
-	<script type="text/javascript">var duoshuoQuery = {short_name:"qingtianxueri"};</script>
-	<!-- <script src="https://static.duoshuo.com/embed.js"></script> -->
-	<script src="{{asset "minified/embed.min.js"}}"></script>
-	<script src="{{asset "minified/instantclick.min.js"}}" data-no-instant></script>
+	<!--<script src="{{asset "minified/instantclick.min.js"}}" data-no-instant></script>-->
 	<script src="{{asset "minified/wow.min.js"}}"></script>
-	<!-- <script src="{{asset "minified/main.min.js"}}"></script> -->
-	<script data-no-instant type="text/javascript" src="https://assets.changyan.sohu.com/upload/plugins/plugins.count.js"></script>
-	<script data-no-instant id="cy_cmt_num" src="https://changyan.sohu.com/upload/plugins/plugins.list.count.js?clientId=cysX0NIPe"></script>
-	<script src="{{asset "js/bundle.js"}}"></script>
+	 <script src="{{asset "minified/main.min.js"}}"></script>
+	<script id="cy_cmt_num" src="https://changyan.sohu.com/upload/plugins/plugins.list.count.js?clientId=cysX0NIPe"></script>
 	<script data-no-instant>
 		$(document).on('ready', function(){
 			new WOW().init();
 			window.defaultApp.init();
 			window.app.documentReadyInitApp();
 		});
-		InstantClick.on('change', function(isInstant){
-			if (isInstant === false) {
-				new WOW().init();
-				window.defaultApp.init();
-				//设置文章列表获取下一页从第二页开始
-				window.app.page = 1;
-				window.app.instantClickInitApp();
-			}
-		});
-		InstantClick.init();
+//		InstantClick.on('change', function(isInstant){
+//			if (isInstant === false) {
+//				new WOW().init();
+//				window.defaultApp.init();
+//				//设置文章列表获取下一页从第二页开始
+//				window.app.page = 1;
+//				window.app.instantClickInitApp();
+//			}
+//		});
+//		InstantClick.init();
 	</script>
 
 </body>
