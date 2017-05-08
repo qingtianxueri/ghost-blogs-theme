@@ -31,7 +31,14 @@
       var width = window.innerWidth || document.documentElement.clientWidth;
 
       if (width < 960) {
-        window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>');
+        var mobileUrl = 'https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf;
+        var head=document.getElementsByTagName("head")[0]||document.head||document.documentElement;
+        var script=document.createElement("script");
+        script.setAttribute("type", "text/javascript");
+        script.setAttribute("charset", "UTF-8");
+        script.setAttribute("src", mobileUrl);
+        script.setAttribute("id", "changyan_mobile_js");
+        head.appendChild(script);
       } else {
         var loadJs=function(d,a){
           var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;
