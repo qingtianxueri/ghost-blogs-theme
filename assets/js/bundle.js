@@ -233,12 +233,8 @@
 	            });
 	        }()
 	    },
-	    function(module, exports) {
-	        "use strict";
-	    },
-	    function(module, exports) {
-	        "use strict";
-	    },
+	    function(module, exports) {},
+	    function(module, exports) {},
 	    function(module, exports) {
 	        "use strict";
 
@@ -287,8 +283,7 @@
 	            }();
 	        module.exports = GodoShareCount
 	    },
-	    function(module, exports) {
-	    },
+	    function(module, exports) {},
 	    function(module, exports) {
 	        "use strict";
 	        ! function($) {
