@@ -1,11 +1,12 @@
-var gulp = require('gulp'),
+let gulp = require('gulp'),
     sass = require('gulp-sass');
     cssmin = require('gulp-minify-css'),
     cssver = require('gulp-make-css-url-version');
     concat = require('gulp-concat'),
     uglify = require('gulp-uglify'),
+    babel = require('gulp-babel'),
     rename = require('gulp-rename'),
-    notify = require('gulp-notify');
+    notify = require('gulp-notify'),
     del = require('del');
 
 // css combine and compress
@@ -28,6 +29,7 @@ gulp.task('js', function() {
         .pipe(concat('main.js'))                        //combine all js to main.js
         .pipe(gulp.dest('assets/minified'))             //output folder
         .pipe(rename({suffix: '.min'}))                 //rename the js file that compressed
+        .pipe(babel())
         .pipe(uglify())                                 //compress
         .pipe(gulp.dest('assets/minified'))             //output folder
 });

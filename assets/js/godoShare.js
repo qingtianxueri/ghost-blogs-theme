@@ -25,16 +25,6 @@ module.exports = function(share_elems) {
                         text: _this.godoValue("url"),
                     }
                 },
-                'tencent-weibo': {
-                    'shareUrl': 'http://share.v.t.qq.com/index.php',
-                    'params': {
-                        c: 'share',
-                        a: 'index',
-                        url: _this.godoValue("url"),
-                        title: _this.godoValue("title"),
-                        appkey: '801cf76d3cfc44ada52ec13114e84a96'
-                    }
-                },
                 'facebook': {
                     shareUrl: "https://www.facebook.com/sharer/sharer.php",
                     params: {
